@@ -1,0 +1,972 @@
+/* ==========================================================================
+   STORY SECTION - FIXED POP-UP ARCHIVES & 3D PAGE-FLIPPING BOOK STYLE
+   ========================================================================== */
+
+/* Fullscreen Modal Pop-up */
+.story-sec {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050507;
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(24, 18, 14, 0.6) 0%, transparent 70%),
+    linear-gradient(to bottom, #040405 0%, #060608 100%);
+  padding: 45px 0 85px 0;
+  overflow-y: auto;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  animation: modal-fade-in 0.35s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Atmospheric Ambient Lights */
+.story-ambient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(196, 164, 80, 0.02) 0%, transparent 60%);
+  z-index: 1;
+}
+
+.story-container {
+  position: relative;
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+  z-index: 5; /* Push bookshelf content in front of background embers */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate3d(0, 0, 10px); /* Elevates container onto GPU 3D layer forward */
+}
+
+/* --- Top Universal Banner (Leave Chronicles) --- */
+.story-top-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  cursor: pointer;
+  z-index: 100000;
+  border-bottom: 1px solid rgba(196, 164, 80, 0.15);
+  padding-bottom: 8px;
+  width: auto;
+  transform: translate3d(0, 0, 10px); /* Elevates banner onto GPU 3D layer forward */
+}
+
+.banner-swords {
+  color: #9e2a2b;
+  font-size: 14px;
+}
+
+.banner-text {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  color: #c4a450;
+  font-weight: 700;
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+.story-top-banner:hover .banner-text {
+  text-shadow: 0 0 8px rgba(196,164,80,0.6);
+  color: #fff;
+}
+
+
+/* --- VIEW 1: THE SHELF LAYOUT --- */
+.shelf-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.shelf-main-title {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #f5f2eb;
+  margin: 0 0 15px 0;
+  text-align: center;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+}
+
+.shelf-main-subtitle {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #c4a450;
+  margin: 0 0 40px 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Burning Candle Simulation */
+.candle-container {
+  position: relative;
+  width: 24px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 45px;
+}
+
+.candle-flame {
+  position: absolute;
+  top: -24px;
+  width: 12px;
+  height: 24px;
+  background: radial-gradient(ellipse at bottom, #ffeaad 0%, #ff8c00 50%, #d03c00 100%);
+  border-radius: 50% 50% 35% 35%;
+  box-shadow: 
+    0 -3px 15px rgba(255, 140, 0, 0.7),
+    0 0 25px rgba(255, 234, 173, 0.4);
+  animation: flicker 1.8s infinite ease-in-out;
+  transform-origin: center bottom;
+}
+
+.candle-wick {
+  width: 2px;
+  height: 6px;
+  background-color: #111;
+  z-index: 2;
+}
+
+.candle-wax {
+  width: 14px;
+  height: 60px;
+  background: linear-gradient(to right, #ffffff 0%, #eaeaea 60%, #cccccc 100%);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 
+    inset 2px 0 3px rgba(255,255,255,0.8),
+    inset -2px 0 3px rgba(0,0,0,0.1),
+    0 4px 8px rgba(0,0,0,0.4);
+}
+
+@keyframes flicker {
+  0%, 100% { transform: scale(1) rotate(-1deg); opacity: 0.95; }
+  20% { transform: scale(1.05) rotate(1deg); opacity: 1; }
+  40% { transform: scale(0.95) rotate(-0.5deg); opacity: 0.9; }
+  60% { transform: scale(1.02) rotate(1.5deg); opacity: 1; }
+  80% { transform: scale(0.98) rotate(-1deg); opacity: 0.93; }
+}
+
+.shelf-footer-panel {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(245, 242, 235, 0.55);
+  margin: 0 0 25px 0;
+  text-transform: uppercase;
+}
+
+/* The Bookshelf Row */
+.physical-bookshelf-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.physical-bookshelf-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 220px;
+  width: 100%;
+  padding-bottom: 2px;
+  border-bottom: 2px solid rgba(0,0,0,0.9);
+  z-index: 2;
+}
+
+/* Wood Shelf Base Plank */
+.physical-shelf-base {
+  width: 100%;
+  height: 18px;
+  background: linear-gradient(to bottom, #1d120a 0%, #0d0805 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 4px solid #000;
+  border-radius: 1px;
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.95),
+    0 5px 8px rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+/* Individual Book Spines */
+.shelf-book-spine {
+  position: relative;
+  height: 100%;
+  background-color: var(--color);
+  /* 3D Roundness Shading */
+  background-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0.5) 0%,
+    rgba(255,255,255,0.18) 12%,
+    transparent 30%,
+    transparent 70%,
+    rgba(0,0,0,0.12) 85%,
+    rgba(0,0,0,0.55) 100%
+  );
+  box-shadow: 
+    3px 4px 10px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px rgba(255,255,255,0.08);
+  border-top: 4px double rgba(196, 164, 80, 0.4);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.shelf-book-spine:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 
+    6px 15px 25px rgba(0, 0, 0, 0.9),
+    0 0 10px rgba(196, 164, 80, 0.1);
+}
+
+/* Numbered Chronicles (Slightly taller) */
+.shelf-book-spine--chronicle {
+  width: 44px;
+  height: 195px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  box-sizing: border-box;
+  border-radius: 3px 3px 0 0;
+}
+
+.spine-num-top {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(196, 164, 80, 0.8);
+}
+
+.spine-title-text {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(245, 242, 235, 0.9);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0;
+  white-space: nowrap;
+  max-height: 125px;
+  overflow: hidden;
+}
+
+/* Filler Logs (Shorter, unnumbered) */
+.shelf-book-spine--filler {
+  width: var(--width);
+  height: 172px;
+  border-radius: 2px 2px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+}
+
+.spine-text-filler {
+  font-family: 'Cinzel', serif;
+  font-size: 8px;
+  font-weight: 600;
+  color: rgba(245, 242, 235, 0.45);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  max-height: 115px;
+  overflow: hidden;
+}
+
+
+/* --- VIEW 2: ARCHIVES DIRECTORY SCROLL OVERLAY (MATCHING SCREENSHOT 2) --- */
+.directory-overlay-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  backdrop-filter: none;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.directory-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(5, 5, 7, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: -2; /* Level -2: Behind particles */
+  transform: translate3d(0, 0, -10px); /* Pushes backdrop 10px backward in 3D depth */
+  pointer-events: none;
+}
+
+/* Dark Wood Scroll Style Box */
+.directory-scroll-box {
+  position: relative;
+  width: 90%;
+  max-width: 620px;
+  max-height: 85vh;
+  background-color: #0c0c0e;
+  background-image: 
+    radial-gradient(circle at center, rgba(40,30,25,0.3) 0%, rgba(0,0,0,0.6) 100%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 4px);
+  border: 1px solid rgba(196, 164, 80, 0.35);
+  outline: 3px solid rgba(196, 164, 80, 0.1);
+  outline-offset: -8px;
+  border-radius: 6px;
+  padding: 40px 35px 35px 35px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.95),
+    inset 0 0 40px rgba(0,0,0,0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 5; /* Push scroll box in front of background embers */
+}
+
+.directory-eyebrow {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: #9e2a2b;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+}
+
+.directory-main-title {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #f5f2eb;
+  margin: 0 0 25px 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Directory scroll list with scrollbar styling */
+.directory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 30px;
+  overflow-y: auto;
+  padding-right: 8px;
+  box-sizing: border-box;
+}
+
+.directory-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.directory-list::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+  border-radius: 3px;
+}
+
+.directory-list::-webkit-scrollbar-thumb {
+  background: rgba(196, 164, 80, 0.35);
+  border-radius: 3px;
+}
+
+.directory-list::-webkit-scrollbar-thumb:hover {
+  background: #c4a450;
+}
+
+/* List Directory Item */
+.directory-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #111115; /* Solid dark grey - blocks particles from bleeding through! */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.directory-item:hover {
+  background: rgba(196, 164, 80, 0.03);
+  border-color: rgba(196, 164, 80, 0.3);
+  transform: translateX(4px);
+}
+
+/* Left accent bar matching the book */
+.directory-left-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--accent-color);
+  border-radius: 4px 0 0 4px;
+}
+
+.directory-num {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--accent-color);
+  width: 40px;
+}
+
+.directory-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.directory-title {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #f5f2eb;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.directory-subtitle {
+  font-size: 10.5px;
+  color: rgba(245, 242, 235, 0.4);
+  margin: 0;
+}
+
+.directory-icon {
+  font-size: 15px;
+  color: rgba(196, 164, 80, 0.6);
+  opacity: 0.8;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.directory-item:hover .directory-icon {
+  color: #c4a450;
+  transform: scale(1.1);
+}
+
+/* Dismiss Gold Button */
+.directory-dismiss-btn {
+  background: transparent;
+  border: 1px solid rgba(196, 164, 80, 0.5);
+  color: #c4a450;
+  padding: 10px 24px;
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.directory-dismiss-btn:hover {
+  background: #c4a450;
+  color: #060608;
+  box-shadow: 0 0 12px rgba(196, 164, 80, 0.25);
+}
+
+
+/* --- VIEW 3: IMMERSIVE 3D FLIPPING ANCIENT GRIMOIRE VIEW (MATCHING SCREENSHOT 3) --- */
+.book-overlay-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent; /* Transparent parent */
+  backdrop-filter: none; /* No parent blur */
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(4, 4, 6, 0.95);
+  backdrop-filter: blur(14px);
+  z-index: -2; /* Level -2: Behind particles */
+  transform: translate3d(0, 0, -10px); /* Pushes backdrop 10px backward in 3D depth */
+  pointer-events: none;
+}
+
+.book-layout-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 95%;
+  max-width: 1100px;
+  height: auto;
+}
+
+/* Page Navigation Arrows */
+.page-flip-arrow {
+  background: none;
+  border: none;
+  color: rgba(196, 164, 80, 0.45);
+  font-size: 48px;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.25s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  z-index: 10;
+}
+
+.page-flip-arrow:hover {
+  color: #c4a450;
+  transform: scale(1.2);
+}
+
+.page-flip-arrow-placeholder {
+  width: 50px;
+}
+
+/* Double Spread Book Container - 3D Perspective Enabler */
+.immersive-book-spread {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  height: 540px;
+  /* Dark magical wood outer texture */
+  background-color: #0c0c10;
+  background-image: 
+    radial-gradient(circle at center, rgba(30, 24, 20, 0.45) 0%, #060608 100%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
+  border: 2px solid rgba(196, 164, 80, 0.35);
+  outline: 1px solid rgba(196, 164, 80, 0.1);
+  outline-offset: 4px;
+  border-radius: 12px;
+  box-shadow: 
+    0 35px 70px rgba(0, 0, 0, 0.95),
+    inset 0 0 100px rgba(0, 0, 0, 1);
+  display: flex;
+  box-sizing: border-box;
+  perspective: 1800px; /* Enforces realistic 3D depth for page turns */
+  transform-style: preserve-3d;
+  z-index: 5; /* Push book in front of background embers */
+}
+
+/* Center Crease / Spine shadow */
+.book-center-crease {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  bottom: 0;
+  width: 32px;
+  background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Base structural styles for all book pages (permanent and 3D) */
+.immersive-book-page {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  padding: 45px 50px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* Conditional Page Hiding for 3D stacks to prevent z-fighting overlap */
+.page--hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* LAYER 1: Permanent Left Page (Sits at left: 0) */
+.permanent-left {
+  left: 0;
+  border-right: 1px dashed rgba(255, 255, 255, 0.04);
+}
+
+/* LAYER 3: Permanent Right Page (Sits at left: 50%) */
+.permanent-right {
+  left: 50%;
+}
+
+/* LAYER 2: 3D Flippable Middle Sheet (Pivots left edge on center spine) */
+.flippable-sheet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.645, 0.045, 0.355, 1);
+  z-index: 4;
+}
+
+/* Flipped State (Rotates 180 degrees leftwards) */
+.flippable-sheet--flipped {
+  transform: rotateY(-180deg);
+}
+
+/* Double Sided Card (Page 2 Front & Page 3 Back) */
+.br-page-3d {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  box-sizing: border-box;
+  padding: 45px 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page 2 Front Side */
+.br-page-3d--front {
+  z-index: 2;
+  transform: rotateY(0deg);
+  border-left: 1px dashed rgba(255, 255, 255, 0.02);
+}
+
+/* Page 3 Back Side */
+.br-page-3d--back {
+  z-index: 1;
+  transform: rotateY(180deg); /* Counter rotates so text is readable when flipped over left */
+  border-right: 1px dashed rgba(255, 255, 255, 0.02);
+  border-radius: 12px 0 0 12px;
+}
+
+
+/* --- ANCIENT GRIMOIRE PAGES GRAPHICS (NEW BRAND ADDITION) --- */
+
+/* Distressed black-leather grimoire page background */
+.immersive-book-page, .br-page-3d {
+  background-color: #0d0c10;
+  background-image: 
+    radial-gradient(circle at center, rgba(196, 164, 80, 0.015) 0%, transparent 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 250 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Gold double line ornate frame on every page */
+.immersive-book-page::before, .br-page-3d::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  border: 1px solid rgba(196, 164, 80, 0.22);
+  outline: 1px solid rgba(196, 164, 80, 0.08);
+  outline-offset: -5px;
+  pointer-events: none;
+  z-index: 10;
+  border-radius: 4px;
+}
+
+/* Corner Cross flourishes */
+.immersive-book-page::after, .br-page-3d::after {
+  content: '✥';
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  color: rgba(196, 164, 80, 0.45);
+  text-shadow: 0 0 4px rgba(196,164,80,0.3);
+  z-index: 11;
+  pointer-events: none;
+}
+
+/* Set corner flourishes on all four edges */
+.permanent-left::after, .br-page-3d--back::after {
+  left: 12px;
+}
+
+.permanent-right::after, .br-page-3d--front::after {
+  right: 12px;
+  left: auto;
+}
+
+
+/* --- TEXT & DECORATION PROPERTIES (MATCHING SCREENSHOT 3 EXACTLY) --- */
+.page-content-flow {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  z-index: 12;
+}
+
+.book-page-category-tag {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #9e2a2b;
+  margin: 0 0 25px 0;
+  text-transform: uppercase;
+}
+
+.book-page-category-tag.text-right {
+  text-align: right;
+}
+
+.book-page-large-title {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #f5f2eb;
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.book-page-divider {
+  width: 80px;
+  height: 1px;
+  background-color: rgba(196, 164, 80, 0.4);
+  margin-bottom: 40px;
+}
+
+/* Emblem Circle */
+.book-page-center-emblem {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: auto;
+}
+
+.emblem-inner-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgba(196, 164, 80, 0.35);
+  outline: 1px solid rgba(196, 164, 80, 0.1);
+  outline-offset: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emblem-symbol {
+  font-size: 22px;
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Bottom Red Accent block */
+.book-page-bottom-accent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  margin-bottom: 40px;
+}
+
+.accent-red-bar {
+  width: 2px;
+  height: 24px;
+  background-color: #9e2a2b;
+}
+
+.accent-year-text {
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(245, 242, 235, 0.45);
+  margin: 0;
+}
+
+/* Universal Page Footer */
+.book-page-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.footer-volume-text {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: rgba(245, 242, 235, 0.35);
+  text-transform: uppercase;
+}
+
+.footer-page-num {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(245, 242, 235, 0.35);
+  text-transform: uppercase;
+}
+
+/* Right Page Specific Styling */
+.book-page-gold-header {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #c4a450;
+  margin: 0 0 25px 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* Medieval Book Body Text & Golden Drop Capitals */
+.book-page-body-serif {
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  line-height: 1.85;
+  text-align: justify;
+  color: rgba(245, 242, 235, 0.72);
+  margin: 0;
+  font-weight: 400;
+  hyphens: auto;
+}
+
+/* Elegant Medieval Gold Initial Drop Capitals */
+.book-page-body-serif::first-letter {
+  font-family: 'Cinzel', serif;
+  font-size: 42px;
+  font-weight: 700;
+  float: left;
+  margin-right: 10px;
+  line-height: 0.9;
+  color: #c4a450;
+  text-shadow: 0 0 8px rgba(196,164,80,0.5);
+  border: 1px solid rgba(196, 164, 80, 0.35);
+  padding: 4px 10px;
+  background: rgba(0,0,0,0.45);
+  margin-top: 4px;
+  border-radius: 2px;
+}
+
+/* Return button inside the page footer */
+.book-return-shelf-btn {
+  background: rgba(158, 42, 43, 0.06);
+  border: 1px solid rgba(158, 42, 43, 0.45);
+  color: #9e2a2b;
+  padding: 6px 14px;
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.book-return-shelf-btn:hover {
+  background: #9e2a2b;
+  color: #fff;
+  border-color: #9e2a2b;
+  box-shadow: 0 0 10px rgba(158, 42, 43, 0.3);
+}
+
+
+/* --- CSS UTILITIES & ANIMATIONS --- */
+.animate-fade-in {
+  animation: unifiedFadeIn 0.45s ease forwards;
+}
+
+@keyframes unifiedFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 900px) {
+  .shelf-main-title { font-size: 32px; }
+  .physical-bookshelf-row { height: 160px; gap: 8px; }
+  .shelf-book-spine--chronicle { width: 34px; height: 140px; padding: 8px 0; }
+  .shelf-book-spine--filler { height: 120px; }
+  .spine-title-text { font-size: 7.5px; max-height: 90px; }
+  
+  .immersive-book-spread { height: 460px; }
+  .immersive-book-page { padding: 30px; }
+  .br-page-3d { padding: 30px; }
+  .book-page-large-title { font-size: 24px; }
+  .book-page-body-serif { font-size: 12.5px; line-height: 1.7; }
+  .book-page-divider { margin-bottom: 25px; }
+  .book-page-center-emblem { margin-bottom: 25px; }
+  .book-page-bottom-accent { margin-bottom: 25px; }
+  
+  .immersive-book-page::before, .br-page-3d::before { top: 12px; left: 12px; right: 12px; bottom: 12px; }
+  .immersive-book-page::after, .br-page-3d::after { top: 8px; left: 8px; font-size: 11px; }
+}
+
+@media (max-width: 650px) {
+  .shelf-main-title { font-size: 24px; }
+  .shelf-main-subtitle { font-size: 9px; }
+  .physical-bookshelf-row { height: 120px; gap: 4px; padding-bottom: 1px; }
+  .shelf-book-spine--chronicle { width: 22px; height: 100px; padding: 6px 0; }
+  .shelf-book-spine--filler { height: 85px; }
+  .spine-title-text { display: none; } /* Hide spine text on very small mobile for spacing */
+  .spine-num-top { font-size: 8px; }
+  
+  /* Disable 3D flip on mobile vertical layout to guarantee readable layout structure */
+  .book-layout-wrapper { gap: 10px; }
+  .immersive-book-spread { flex-direction: column; height: auto; max-height: 85vh; overflow-y: auto; perspective: none; transform-style: flat; }
+  .immersive-book-page { width: 100%; height: auto; padding: 25px 20px; position: relative; left: 0 !important; top: 0; }
+  .permanent-right { display: none; } /* Show only one flow to keep mobile text scrollable and light */
+  .flippable-sheet { display: none; }
+  .page--left { border-right: none; border-bottom: 1px dashed rgba(255, 255, 255, 0.04); }
+  .book-center-crease { display: none; }
+  .book-page-bottom-accent { margin-bottom: 15px; }
+  .book-page-divider { margin-bottom: 15px; }
+  .book-page-center-emblem { display: none; } /* Hide emblem to save space */
+  .page-flip-arrow { font-size: 32px; width: 30px; }
+  
+  .immersive-book-page::before, .br-page-3d::before { top: 8px; left: 8px; right: 8px; bottom: 8px; }
+  .immersive-book-page::after, .br-page-3d::after { top: 5px; left: 5px; font-size: 9px; }
+}

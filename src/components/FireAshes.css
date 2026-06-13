@@ -1,0 +1,49 @@
+/* ==========================================================================
+   FIRE EMBERS / ASHES PARTICLE CONTROLLER - SOLID HARDWARE ACCELERATION
+   ========================================================================== */
+
+.fire-ashes-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1; /* Sits directly in the backdrop background under modal */
+  transform: translate3d(0, 0, -5px); /* Physically forces particle engine backward in GPU 3D space */
+}
+
+/* Floating particle core style */
+.fire-ash-particle {
+  position: absolute;
+  bottom: -25px; /* Starts just below the screen */
+  background-color: #ff8c00;
+  /* Radial glow core to make it look like a physical hot spark */
+  background-image: radial-gradient(circle, #ffebae 0%, #ff6600 50%, #d03000 100%);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 10px var(--glow),
+    0 0 20px var(--glow);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: driftUp linear infinite;
+}
+
+/* Hardware-accelerated drift upwards & gentle side sway */
+@keyframes driftUp {
+  0% {
+    transform: translateY(0) translateX(0) scale(1.1) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  90% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(-105vh) translateX(var(--drift)) scale(0.4) rotate(360deg);
+    opacity: 0;
+  }
+}

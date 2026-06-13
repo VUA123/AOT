@@ -1,0 +1,445 @@
+/* ==========================================================================
+   SCOUT DIRECTORY DOSSIER OVERLAY - HIGH-FIDELITY (MATCHING SCREENSHOT 308)
+   ========================================================================== */
+
+/* Fullscreen Pop-up overlay */
+.sd-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent; /* Transparent parent */
+  backdrop-filter: none; /* No parent blur */
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Sibling Backdrop layer at the base of the stack */
+.sd-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(5, 5, 7, 0.94);
+  backdrop-filter: blur(14px);
+  z-index: -2; /* Level -2: Behind particles */
+  transform: translate3d(0, 0, -10px); /* Pushes backdrop 10px backward in 3D depth */
+  pointer-events: none;
+}
+
+/* Centered Modal structure */
+.sd-modal {
+  position: relative;
+  width: 90%;
+  max-width: 1100px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  box-sizing: border-box;
+  z-index: 5; /* Push card content in front of floating background embers */
+  transform: translate3d(0, 0, 10px); /* Elevates modal onto GPU 3D layer forward */
+}
+
+/* --- Top Gold Close Banner --- */
+.sd-top-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(196, 164, 80, 0.15);
+  padding-bottom: 8px;
+  width: auto;
+  z-index: 10;
+}
+
+.sd-banner-anchor {
+  color: #9e2a2b;
+  font-size: 14px;
+}
+
+.sd-banner-text {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  color: #c4a450;
+  font-weight: 700;
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.sd-top-banner:hover .sd-banner-text {
+  text-shadow: 0 0 8px rgba(196, 164, 80, 0.6);
+  color: #fff;
+}
+
+
+/* --- THE CONTENT ROW --- */
+.sd-content {
+  display: flex;
+  width: 100%;
+  gap: 45px;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/* LEFT COLUMN: THE SCOUT LIST SELECTOR */
+.sd-left-col {
+  position: relative;
+  z-index: 2;
+  width: 42%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sd-eyebrow {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: #9e2a2b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.sd-main-title {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #f5f2eb;
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.sd-divider {
+  width: 60px;
+  height: 1px;
+  background-color: rgba(196, 164, 80, 0.35);
+  margin-bottom: 30px;
+}
+
+.sd-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Vertical Menu Item */
+.sd-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #111115; /* Solid dark grey - blocks particles from bleeding through! */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.sd-menu-item:hover {
+  background: rgba(196, 164, 80, 0.025);
+  border-color: rgba(196, 164, 80, 0.25);
+  transform: translateX(4px);
+}
+
+.sd-menu-item--active {
+  background: rgba(196, 164, 80, 0.04) !important;
+  border-color: #c4a450 !important;
+  box-shadow: 
+    0 0 15px rgba(196, 164, 80, 0.1),
+    inset 0 0 10px rgba(196, 164, 80, 0.02);
+  transform: translateX(4px);
+}
+
+.sd-item-icon {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  color: #c4a450;
+  width: 40px;
+  opacity: 0.8;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sd-menu-item--active .sd-item-icon {
+  color: #c4a450;
+  opacity: 1;
+}
+
+.sd-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-item-name {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(245, 242, 235, 0.7);
+  transition: color 0.25s ease;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.sd-item-sub {
+  font-size: 10.5px;
+  color: rgba(245, 242, 235, 0.4);
+}
+
+.sd-menu-item--active .sd-item-name {
+  color: #c4a450;
+}
+
+.sd-menu-item:hover .sd-item-name {
+  color: #f5f2eb;
+}
+
+
+/* RIGHT COLUMN: MILITARY FILE CARD */
+.sd-right-col {
+  width: 58%;
+}
+
+.sd-dossier-card {
+  position: relative; /* Enables absolute placement of stamp */
+  z-index: 2;
+  background-color: #0c0c0e;
+  background-image: 
+    radial-gradient(circle at center, rgba(30, 24, 20, 0.3) 0%, rgba(0,0,0,0.6) 100%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.01) 0px, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 4px);
+  border: 1px solid rgba(196, 164, 80, 0.32);
+  outline: 3px solid rgba(196, 164, 80, 0.08);
+  outline-offset: -8px;
+  border-radius: 6px;
+  padding: 40px 35px 35px 35px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.95),
+    inset 0 0 35px rgba(0,0,0,0.85);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Red Angled Confidential Stamp on Top-Right */
+.sd-stamp-confidential {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  color: rgba(158, 42, 43, 0.7);
+  border: 3px double rgba(158, 42, 43, 0.7);
+  padding: 3px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transform: rotate(-9deg);
+  border-radius: 3px;
+  user-select: none;
+  text-shadow: 0 0 3px rgba(158,42,43,0.15);
+  z-index: 5;
+}
+
+/* Dossier Header panel */
+.sd-dossier-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.sd-wings-symbol {
+  font-size: 24px;
+  color: rgba(196, 164, 80, 0.5);
+}
+
+.sd-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-header-title {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: rgba(196, 164, 80, 0.7);
+  font-weight: 700;
+}
+
+.sd-header-sub {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: rgba(245, 242, 235, 0.35);
+}
+
+/* Profile Metadata Row */
+.sd-profile-row {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+/* Photo Frame with corner notches */
+.sd-photo-frame {
+  position: relative;
+  width: 105px;
+  height: 105px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px;
+  background: rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+.sd-scout-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* Micro Corner L-Notches for a vintage dossier blueprint style */
+.sd-photo-corner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: rgba(196, 164, 80, 0.4);
+  border-style: solid;
+}
+
+.sd-photo-corner--tl { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.sd-photo-corner--tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
+.sd-photo-corner--bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+.sd-photo-corner--br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+/* Metadata Column */
+.sd-meta-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-meta-label {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  color: #9e2a2b;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.sd-meta-label--margin {
+  margin-top: 15px;
+}
+
+.sd-scout-name {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 24px;
+  font-weight: 700;
+  color: #f5f2eb;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.sd-scout-rank {
+  font-family: 'Georgia', serif;
+  font-size: 13.5px;
+  font-style: italic;
+  color: #c4a450;
+  margin: 0;
+}
+
+/* Ornate gold quotes block */
+.sd-quote-box {
+  border: 1px solid rgba(196, 164, 80, 0.14);
+  background: rgba(196, 164, 80, 0.015);
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin-bottom: 25px;
+  box-sizing: border-box;
+}
+
+.sd-quote-text {
+  font-family: 'Georgia', serif;
+  font-size: 13.5px;
+  font-style: italic;
+  color: #c4a450;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+}
+
+/* Psychological / Historical Report Block */
+.sd-report-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-report-label {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: #9e2a2b;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.sd-report-text {
+  font-family: 'Georgia', serif;
+  font-size: 13.5px;
+  line-height: 1.75;
+  text-align: justify;
+  color: rgba(245, 242, 235, 0.7);
+  margin: 0;
+}
+
+/* Footer of the Dossier Card */
+.sd-dossier-footer {
+  border-top: 1px dashed rgba(255,255,255,0.05);
+  margin-top: 25px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.sd-dossier-footer span {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: rgba(245, 242, 235, 0.3);
+}
+
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 900px) {
+  .sd-main-title { font-size: 28px; }
+  .sd-content { gap: 30px; }
+  .sd-scout-name { font-size: 20px; }
+  .sd-report-text { font-size: 12.5px; line-height: 1.65; }
+  .sd-photo-frame { width: 90px; height: 90px; }
+}
+
+@media (max-width: 650px) {
+  .sd-overlay { padding: 20px 0; overflow-y: auto; align-items: flex-start; }
+  .sd-modal { width: 92%; }
+  .sd-content { flex-direction: column; gap: 30px; }
+  .sd-left-col { width: 100%; }
+  .sd-right-col { width: 100%; }
+  .sd-dossier-card { padding: 25px; }
+  .sd-stamp-confidential { display: none; } /* Hide stamp on mobile portrait to save room */
+  .sd-profile-row { gap: 15px; }
+}

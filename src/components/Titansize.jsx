@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import './TitanSize.css'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -68,7 +68,7 @@ const TITANS = [
   },
 ]
 
-export default function TitanSize() {
+export default function TitanSize({ onTitanClick }) {
   const sectionRef = useRef(null)
   const stickyRef  = useRef(null)
   const titanRefs  = useRef([])
@@ -129,7 +129,7 @@ export default function TitanSize() {
   }, [])
 
   return (
-    <section className="ts-section" ref={sectionRef}>
+    <section id="titans" className="ts-section" ref={sectionRef}>
       <div className="ts-sticky" ref={stickyRef}>
 
         <div className="ts-sky" />
@@ -150,7 +150,12 @@ export default function TitanSize() {
             <div
               key={titan.id}
               className="ts-titan-slot"
-              style={{ '--color': titan.color }}
+              style={{ '--color': titan.color, cursor: 'pointer' }}
+              onClick={() => {
+                if (onTitanClick) {
+                  onTitanClick(titan.id === 'human' ? 'pure' : titan.id)
+                }
+              }}
             >
               <div
                 className="ts-figure"

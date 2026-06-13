@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './Navbar.css'
 
 const LINKS = [
@@ -9,7 +9,7 @@ const LINKS = [
   { label: 'Chronicle',href: '#chronicle'},
 ]
 
-const Navbar = () => {
+const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick }) => {
   const [scrolled,    setScrolled]    = useState(false)
   const [menuOpen,    setMenuOpen]    = useState(false)
   const [activeLink,  setActiveLink]  = useState(null)
@@ -58,9 +58,21 @@ const Navbar = () => {
             <li key={link.label}>
               <a
                 ref={el => linksRef.current[i] = el}
-                href={link.href}
+                href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers') ? 'javascript:void(0)' : link.href}
                 className={`navbar__link ${activeLink === i ? 'navbar__link--active' : ''}`}
                 onMouseEnter={() => { setActiveLink(i); moveIndicator(i) }}
+                onClick={(e) => {
+                  if (link.label === 'Story') {
+                    e.preventDefault();
+                    if (onStoryClick) onStoryClick();
+                  } else if (link.label === 'Titans') {
+                    e.preventDefault();
+                    if (onTitansClick) onTitansClick();
+                  } else if (link.label === 'Soldiers') {
+                    e.preventDefault();
+                    if (onScoutsClick) onScoutsClick();
+                  }
+                }}
               >
                 <span className="navbar__link-num">0{i + 1}</span>
                 {link.label}
@@ -97,10 +109,22 @@ const Navbar = () => {
           {LINKS.map((link, i) => (
             <a
               key={link.label}
-              href={link.href}
+              href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers') ? 'javascript:void(0)' : link.href}
               className="navbar__drawer-link"
               style={{ '--i': i }}
-              onClick={() => setMenuOpen(false)}
+              onClick={(e) => {
+                setMenuOpen(false);
+                if (link.label === 'Story') {
+                  e.preventDefault();
+                  if (onStoryClick) onStoryClick();
+                } else if (link.label === 'Titans') {
+                  e.preventDefault();
+                  if (onTitansClick) onTitansClick();
+                } else if (link.label === 'Soldiers') {
+                  e.preventDefault();
+                  if (onScoutsClick) onScoutsClick();
+                }
+              }}
             >
               <span className="navbar__drawer-num">0{i + 1}</span>
               {link.label}
