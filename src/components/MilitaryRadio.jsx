@@ -73,10 +73,14 @@ export default function MilitaryRadio() {
     activeNodesRef.current.forEach(node => {
       try {
         node.stop()
-      } catch (e) {}
+      } catch {
+        // Safe fail
+      }
       try {
         node.disconnect()
-      } catch (e) {}
+      } catch {
+        // Safe fail
+      }
     })
     activeNodesRef.current = []
   }

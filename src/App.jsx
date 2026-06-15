@@ -9,6 +9,7 @@ import ScoutDirectory from './components/ScoutDirectory'
 import WallDefense from './components/WallDefense'
 import MilitaryRadio from './components/MilitaryRadio'
 import DeploymentMap from './components/DeploymentMap'
+import TrainingGrounds from './components/TrainingGrounds'
 
 function App() {
   const [showArchives, setShowArchives] = useState(false)
@@ -16,6 +17,7 @@ function App() {
   const [showScouts, setShowScouts] = useState(false)
   const [showWalls, setShowWalls] = useState(false)
   const [showMap, setShowMap] = useState(false)
+  const [showTraining, setShowTraining] = useState(false)
   const [selectedTitanId, setSelectedTitanId] = useState('founding')
 
   const handleTitansClick = (titanId) => {
@@ -31,12 +33,14 @@ function App() {
         onScoutsClick={() => setShowScouts(true)}
         onWallsClick={() => setShowWalls(true)}
         onChronicleClick={() => setShowMap(true)}
+        onTrainingClick={() => setShowTraining(true)}
       />
       <Hero />
       <Story isOpen={showArchives} onClose={() => setShowArchives(false)} />
       <TitanSize onTitanClick={handleTitansClick} />
       <WallDefense isOpen={showWalls} onClose={() => setShowWalls(false)} />
       <DeploymentMap isOpen={showMap} onClose={() => setShowMap(false)} />
+      <TrainingGrounds isOpen={showTraining} onClose={() => setShowTraining(false)} />
       {showCodex && (
         <TitanCodex 
           defaultTitanId={selectedTitanId} 

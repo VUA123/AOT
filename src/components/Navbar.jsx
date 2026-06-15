@@ -7,9 +7,10 @@ const LINKS = [
   { label: 'Soldiers', href: '#soldiers' },
   { label: 'Walls',    href: '#walls'    },
   { label: 'Chronicle',href: '#chronicle'},
+  { label: 'Training', href: '#training' },
 ]
 
-const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onChronicleClick }) => {
+const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onChronicleClick, onTrainingClick }) => {
   const [scrolled,    setScrolled]    = useState(false)
   const [menuOpen,    setMenuOpen]    = useState(false)
   const [activeLink,  setActiveLink]  = useState(null)
@@ -58,7 +59,7 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onCh
             <li key={link.label}>
               <a
                 ref={el => linksRef.current[i] = el}
-                href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle') ? 'javascript:void(0)' : link.href}
+                href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle' || link.label === 'Training') ? 'javascript:void(0)' : link.href}
                 className={`navbar__link ${activeLink === i ? 'navbar__link--active' : ''}`}
                 onMouseEnter={() => { setActiveLink(i); moveIndicator(i) }}
                 onClick={(e) => {
@@ -77,6 +78,9 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onCh
                   } else if (link.label === 'Chronicle') {
                     e.preventDefault();
                     if (onChronicleClick) onChronicleClick();
+                  } else if (link.label === 'Training') {
+                    e.preventDefault();
+                    if (onTrainingClick) onTrainingClick();
                   }
                 }}
               >
@@ -115,7 +119,7 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onCh
           {LINKS.map((link, i) => (
             <a
               key={link.label}
-              href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle') ? 'javascript:void(0)' : link.href}
+              href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle' || link.label === 'Training') ? 'javascript:void(0)' : link.href}
               className="navbar__drawer-link"
               style={{ '--i': i }}
               onClick={(e) => {
@@ -135,6 +139,9 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onCh
                 } else if (link.label === 'Chronicle') {
                   e.preventDefault();
                   if (onChronicleClick) onChronicleClick();
+                } else if (link.label === 'Training') {
+                  e.preventDefault();
+                  if (onTrainingClick) onTrainingClick();
                 }
               }}
             >

@@ -104,90 +104,92 @@ export default function WallDefense({ isOpen, onClose }) {
             
             {/* LEFT: THE INTERACTIVE GRAPHIC */}
             <div className="wd-graphic-panel">
-              <p className="wd-panel-tag">SCHEMATIC CROSS-SECTION</p>
-              
-              <div className="wd-walls-visualizer">
-                {/* Concentric / Layered Walls representation */}
-                <div className="wd-visual-layers">
-                  {WALLS_DATA.map((wall, i) => {
-                    const isActive = selectedWall === wall.id
-                    const zIndex = 10 - i
-                    return (
-                      <div
-                        key={wall.id}
-                        className={`wd-wall-layer wd-wall-layer--${wall.id} ${isActive ? 'wd-wall-layer--active' : ''} ${exposeTitan ? 'wd-wall-layer--cracked' : ''}`}
-                        style={{ zIndex }}
-                        onClick={() => setSelectedWall(wall.id)}
-                      >
-                        {/* Brick Texture and Battlements */}
-                        <div className="wd-wall-bricks">
-                          <div className="wd-battlements">
-                            <span></span><span></span><span></span><span></span><span></span>
-                          </div>
-                          <div className="wd-wall-label-overlay">
-                            <span className="wd-wall-roman">{i === 0 ? 'I' : i === 1 ? 'II' : 'III'}</span>
-                            <span className="wd-wall-name-lbl">{wall.name}</span>
-                          </div>
+              <div className="wd-graphic-scroll-content">
+                <p className="wd-panel-tag">SCHEMATIC CROSS-SECTION</p>
+                
+                <div className="wd-walls-visualizer">
+                  {/* Concentric / Layered Walls representation */}
+                  <div className="wd-visual-layers">
+                    {WALLS_DATA.map((wall, i) => {
+                      const isActive = selectedWall === wall.id
+                      const zIndex = 10 - i
+                      return (
+                        <div
+                          key={wall.id}
+                          className={`wd-wall-layer wd-wall-layer--${wall.id} ${isActive ? 'wd-wall-layer--active' : ''} ${exposeTitan ? 'wd-wall-layer--cracked' : ''}`}
+                          style={{ zIndex }}
+                          onClick={() => setSelectedWall(wall.id)}
+                        >
+                          {/* Brick Texture and Battlements */}
+                          <div className="wd-wall-bricks">
+                            <div className="wd-battlements">
+                              <span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                            <div className="wd-wall-label-overlay">
+                              <span className="wd-wall-roman">{i === 0 ? 'I' : i === 1 ? 'II' : 'III'}</span>
+                              <span className="wd-wall-name-lbl">{wall.name}</span>
+                            </div>
 
-                          {/* Gate details */}
-                          {wall.id === 'maria' && (
-                            <div className={`wd-gate wd-gate--maria ${exposeTitan ? 'wd-gate--broken' : ''}`}>
-                              <div className="wd-gate-arch" />
-                              <div className="wd-gate-wood" />
-                            </div>
-                          )}
-                          {wall.id === 'rose' && (
-                            <div className="wd-gate wd-gate--rose">
-                              <div className="wd-gate-arch" />
-                              <div className="wd-boulder" title="Sealing Boulder" />
-                            </div>
-                          )}
-                          {wall.id === 'sheena' && (
-                            <div className="wd-gate wd-gate--sheena">
-                              <div className="wd-gate-arch" />
-                              <div className="wd-royal-banners">
-                                <span className="wd-banner-strip" />
-                                <span className="wd-banner-strip" />
+                            {/* Gate details */}
+                            {wall.id === 'maria' && (
+                              <div className={`wd-gate wd-gate--maria ${exposeTitan ? 'wd-gate--broken' : ''}`}>
+                                <div className="wd-gate-arch" />
+                                <div className="wd-gate-wood" />
                               </div>
-                            </div>
-                          )}
+                            )}
+                            {wall.id === 'rose' && (
+                              <div className="wd-gate wd-gate--rose">
+                                <div className="wd-gate-arch" />
+                                <div className="wd-boulder" title="Sealing Boulder" />
+                              </div>
+                            )}
+                            {wall.id === 'sheena' && (
+                              <div className="wd-gate wd-gate--sheena">
+                                <div className="wd-gate-arch" />
+                                <div className="wd-royal-banners">
+                                  <span className="wd-banner-strip" />
+                                  <span className="wd-banner-strip" />
+                                </div>
+                              </div>
+                            )}
 
-                          {/* Hidden Wall Titan overlay */}
-                          <div className={`wd-wall-titan-core ${exposeTitan ? 'wd-wall-titan-core--visible' : ''}`}>
-                            <div className="wd-titan-glow-eye" />
-                            <div className="wd-titan-skinless-face">
-                              {/* Visual muscle strands and skull outline in CSS */}
-                              <div className="wd-muscle-fiber" />
-                              <div className="wd-teeth-row" />
+                            {/* Hidden Wall Titan overlay */}
+                            <div className={`wd-wall-titan-core ${exposeTitan ? 'wd-wall-titan-core--visible' : ''}`}>
+                              <div className="wd-titan-glow-eye" />
+                              <div className="wd-titan-skinless-face">
+                                {/* Visual muscle strands and skull outline in CSS */}
+                                <div className="wd-muscle-fiber" />
+                                <div className="wd-teeth-row" />
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  })}
+                      )
+                    })}
+                  </div>
+
+                  {/* The Grounds / Foundation */}
+                  <div className="wd-visual-ground">
+                    <span className="wd-ground-rock" />
+                  </div>
                 </div>
 
-                {/* The Grounds / Foundation */}
-                <div className="wd-visual-ground">
-                  <span className="wd-ground-rock" />
+                {/* Protocol Controls */}
+                <div className="wd-controls">
+                  <button 
+                    className={`wd-titan-toggle-btn ${exposeTitan ? 'wd-titan-toggle-btn--active' : ''}`}
+                    onClick={() => setExposeTitan(!exposeTitan)}
+                  >
+                    <span className="wd-btn-icon">💀</span>
+                    <span className="wd-btn-text">
+                      {exposeTitan ? 'DEACTIVATE EXPOSURE PROTOCOL' : 'EXPOSE WALL TITAN COVENANT'}
+                    </span>
+                    <span className="wd-btn-glow" />
+                  </button>
+                  <p className="wd-controls-warning">
+                    ⚠️ WARNING: SENSITIVE INTEL. REVEALS THE FORBIDDEN TRUTH OF THE WALLS' COMPOSITION.
+                  </p>
                 </div>
-              </div>
-
-              {/* Protocol Controls */}
-              <div className="wd-controls">
-                <button 
-                  className={`wd-titan-toggle-btn ${exposeTitan ? 'wd-titan-toggle-btn--active' : ''}`}
-                  onClick={() => setExposeTitan(!exposeTitan)}
-                >
-                  <span className="wd-btn-icon">💀</span>
-                  <span className="wd-btn-text">
-                    {exposeTitan ? 'DEACTIVATE EXPOSURE PROTOCOL' : 'EXPOSE WALL TITAN COVENANT'}
-                  </span>
-                  <span className="wd-btn-glow" />
-                </button>
-                <p className="wd-controls-warning">
-                  ⚠️ WARNING: SENSITIVE INTEL. REVEALS THE FORBIDDEN TRUTH OF THE WALLS' COMPOSITION.
-                </p>
               </div>
             </div>
 

@@ -1,0 +1,632 @@
+/* ==========================================================================
+   CADET GYM - ACKERMAN REFLEXES TARGET PRACTICE CONTROLLER STYLES
+   ========================================================================== */
+
+/* Fullscreen Pop-up overlay */
+.tg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  z-index: 100000;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centered layout */
+  overflow: hidden; /* Prevent page scroll */
+  box-sizing: border-box;
+}
+
+/* Sibling Backdrop layer */
+.tg-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050507; /* Solid opaque deep black matching Story */
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(24, 18, 14, 0.6) 0%, transparent 70%),
+    linear-gradient(to bottom, #040405 0%, #060608 100%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Centered Modal structure */
+.tg-modal {
+  position: relative;
+  width: 90%;
+  max-width: 1100px;
+  height: 80vh; /* Fixed height matching the premium app style */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  box-sizing: border-box;
+  z-index: 5;
+  transform: translate3d(0, 0, 10px);
+}
+
+/* --- Top Gold Close Banner --- */
+.tg-top-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(196, 164, 80, 0.15);
+  padding-bottom: 8px;
+  width: auto;
+  z-index: 10;
+  transform: translate3d(0, 0, 10px);
+}
+
+.tg-banner-anchor {
+  color: #9e2a2b;
+  font-size: 14px;
+}
+
+.tg-banner-text {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  color: #c4a450;
+  font-weight: 700;
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+  text-transform: uppercase;
+}
+
+.tg-top-banner:hover .tg-banner-text {
+  text-shadow: 0 0 8px rgba(196, 164, 80, 0.6);
+  color: #fff;
+}
+
+
+/* --- THE CONTENT ROW --- */
+.tg-container {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 50px);
+  gap: 45px;
+  align-items: stretch;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* LEFT COLUMN: THE SCOREBOARD CARD */
+.tg-left-col {
+  position: relative;
+  z-index: 2;
+  width: 42%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tg-eyebrow {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: #9e2a2b;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.tg-main-title {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #f5f2eb;
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.tg-divider {
+  width: 60px;
+  height: 1px;
+  background-color: rgba(196, 164, 80, 0.35);
+  margin-bottom: 30px;
+  flex-shrink: 0;
+}
+
+.tg-scoreboard-card {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background-color: #0c0c0e;
+  background-image: 
+    radial-gradient(circle at center, rgba(30, 24, 20, 0.3) 0%, rgba(0,0,0,0.6) 100%),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.01) 0px, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 4px);
+  border: 1px solid rgba(196, 164, 80, 0.32);
+  outline: 3px solid rgba(196, 164, 80, 0.08);
+  outline-offset: -8px;
+  border-radius: 6px;
+  padding: 35px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.95),
+    inset 0 0 35px rgba(0,0,0,0.85);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-right: 25px;
+}
+
+/* Red Military Stamp */
+.tg-stamp {
+  position: absolute;
+  top: 35px;
+  right: 35px;
+  color: rgba(158, 42, 43, 0.7);
+  border: 3px double rgba(158, 42, 43, 0.7);
+  padding: 3px 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transform: rotate(-7deg);
+  border-radius: 3px;
+  user-select: none;
+  z-index: 5;
+}
+
+.tg-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.tg-stat-lbl {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  color: #9e2a2b;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.tg-stat-val {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 24px;
+  font-weight: bold;
+  color: rgba(245, 242, 235, 0.85);
+  letter-spacing: 0.05em;
+}
+
+.tg-stat-val--gold {
+  color: #c4a450;
+}
+
+.tg-stat-val--danger {
+  color: #ff4d4d;
+}
+
+/* Wings of Survival / Hearts of Lives */
+.tg-lives-block {
+  margin-bottom: 24px;
+  border-bottom: 1px dashed rgba(196, 164, 80, 0.15);
+  padding-bottom: 24px;
+}
+
+.tg-lives-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 8px;
+}
+
+.tg-heart-icon {
+  font-size: 18px;
+  opacity: 0.15;
+  filter: grayscale(1) brightness(0.5);
+  transition: all 0.3s ease;
+}
+
+.tg-heart-icon--active {
+  opacity: 1;
+  filter: none;
+  text-shadow: 0 0 10px rgba(196,164,80,0.6);
+  animation: tg-pulse-glow 2s infinite alternate ease-in-out;
+}
+
+@keyframes tg-pulse-glow {
+  0% { transform: scale(0.95); opacity: 0.85; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.tg-instructions-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(196, 164, 80, 0.08);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.tg-instruction-title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #c4a450;
+  margin: 0 0 10px 0;
+  letter-spacing: 0.1em;
+}
+
+.tg-instruction-text {
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(245, 242, 235, 0.6);
+  margin: 0 0 10px 0;
+  text-align: justify;
+}
+
+.tg-instruction-text:last-child {
+  margin-bottom: 0;
+}
+
+
+/* RIGHT COLUMN: THE INTERACTIVE TARGET ARENA */
+.tg-right-col {
+  width: 58%;
+  height: 100%;
+}
+
+.tg-arena-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #060608;
+  border: 1px solid rgba(196, 164, 80, 0.12);
+  border-radius: 6px;
+  box-shadow: inset 0 0 35px rgba(0,0,0,0.9);
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.tg-panel-tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--dust, #7a7570);
+  margin: 0;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+/* 1. INTROSCREEN VIEW */
+.tg-arena-panel--intro {
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.tg-center-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 440px;
+  gap: 20px;
+}
+
+.tg-intro-logo {
+  font-size: 48px;
+  color: rgba(196, 164, 80, 0.4);
+  text-shadow: 0 0 15px rgba(196,164,80,0.15);
+  animation: tg-logo-spin 10s infinite linear;
+}
+
+@keyframes tg-logo-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.tg-intro-title {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #f5f2eb;
+  margin: 0;
+  text-shadow: 0 2px 4px #000;
+}
+
+.tg-intro-desc {
+  font-family: 'Georgia', serif;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(245, 242, 235, 0.55);
+  margin: 0;
+}
+
+.tg-start-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid rgba(196, 164, 80, 0.4);
+  color: #c4a450;
+  padding: 15px 30px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.tg-start-btn:hover {
+  border-color: #c4a450;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(196, 164, 80, 0.2);
+}
+
+.tg-btn-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.tg-start-btn:hover .tg-btn-glow {
+  transform: translateX(100%);
+}
+
+
+/* 2. RUNNING PLAYING AREA */
+.tg-arena-panel--playing {
+  background-image: 
+    radial-gradient(circle at center, rgba(196, 164, 80, 0.015) 0%, transparent 80%),
+    linear-gradient(rgba(196,164,80,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,164,80,0.01) 1px, transparent 1px);
+  background-size: 100% 100%, 30px 30px, 30px 30px;
+  background-position: center;
+  cursor: crosshair; /* Sniper targeting feel */
+}
+
+/* Dynamically Spawning Nape Target Circle */
+.tg-target-circle {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  z-index: 10;
+  animation: tg-target-pop 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes tg-target-pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Shrinking outer boundary countdown circle */
+.tg-target-countdown {
+  position: absolute;
+  inset: 0;
+  border: 2.5px solid #ff9d00;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: tg-target-shrink var(--duration) linear forwards;
+}
+
+@keyframes tg-target-shrink {
+  from {
+    transform: scale(1);
+    opacity: 1;
+    border-color: #ff9d00;
+  }
+  to {
+    transform: scale(0.12);
+    opacity: 0.3;
+    border-color: #ff2d00;
+  }
+}
+
+/* Solid Inner Target Core */
+.tg-target-core {
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle at center, #ff2d00 0%, #9e2a2b 100%);
+  border: 1px solid #ff4d4d;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 10px rgba(255, 45, 0, 0.6),
+    inset 0 0 5px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.tg-target-blade {
+  font-size: 10px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.tg-target-circle:hover .tg-target-core {
+  background: radial-gradient(circle at center, #ff9d00 0%, #ff2d00 100%);
+  transform: scale(1.15);
+  box-shadow: 0 0 15px #ff2d00;
+}
+
+
+/* 3. GAMEOVER / EVALUATION CARD */
+.tg-arena-panel--gameover {
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.tg-evaluation-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 440px;
+  gap: 20px;
+  text-align: center;
+}
+
+/* Large Emblem Badge */
+.tg-badge-circle {
+  width: 75px;
+  height: 75px;
+  background-color: #111115;
+  border: 1px solid rgba(196, 164, 80, 0.35);
+  outline: 4px solid rgba(196, 164, 80, 0.08);
+  outline-offset: -5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+  animation: tg-badge-glow 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes tg-badge-glow {
+  0% { transform: translateY(0); box-shadow: 0 5px 15px rgba(0,0,0,0.6); border-color: rgba(196, 164, 80, 0.3); }
+  100% { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(196,164,80,0.25); border-color: #c4a450; }
+}
+
+.tg-badge-icon {
+  font-size: 32px;
+  color: #c4a450;
+  line-height: 1;
+}
+
+.tg-rank-title {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #c4a450;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.tg-rank-score {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  color: #f5f2eb;
+  margin: 0;
+}
+
+.tg-rank-divider {
+  width: 40px;
+  height: 2px;
+  background-color: #9e2a2b;
+}
+
+.tg-rank-desc {
+  font-family: 'Georgia', serif;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(245, 242, 235, 0.6);
+  margin: 0;
+}
+
+/* Action buttons */
+.tg-action-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.tg-retry-btn {
+  background: #9e2a2b;
+  border: 1px solid #ff4d4d;
+  color: #fff;
+  padding: 12px 24px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.tg-retry-btn:hover {
+  background: #c33a3c;
+  box-shadow: 0 0 15px rgba(158, 42, 43, 0.4);
+}
+
+.tg-dismiss-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(245, 242, 235, 0.6);
+  padding: 12px 24px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.tg-dismiss-btn:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+
+/* ==========================================================================
+   CUSTOM GORGEOUS SCROLLBAR FOR SCOREBOARD CARD
+   ========================================================================== */
+.tg-scoreboard-card::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tg-scoreboard-card::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 3px;
+}
+
+.tg-scoreboard-card::-webkit-scrollbar-thumb {
+  background: #c4a450;
+  border-radius: 3px;
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+}
+
+.tg-scoreboard-card::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+}
+
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 900px) {
+  .tg-main-title { font-size: 28px; }
+  .tg-container { gap: 30px; }
+  .tg-intro-title { font-size: 18px; }
+}
+
+@media (max-width: 650px) {
+  .tg-overlay { padding: 20px 0; overflow-y: auto; align-items: flex-start; }
+  .tg-modal { width: 92%; height: auto; }
+  .tg-container { flex-direction: column; gap: 30px; height: auto; overflow: visible; }
+  .tg-left-col { width: 100%; height: auto; }
+  .tg-scoreboard-card { padding: 25px; height: auto; overflow-y: visible; }
+  .tg-right-col { width: 100%; height: auto; }
+  .tg-arena-panel { height: 350px; }
+  .tg-center-intro { padding: 20px; }
+  .tg-action-row { flex-direction: column; width: 100%; }
+}
