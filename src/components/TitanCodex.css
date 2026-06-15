@@ -9,26 +9,28 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: transparent; /* Transparent parent */
-  backdrop-filter: none; /* No parent blur */
+  background-color: transparent; /* Transparent parent stack layer */
+  backdrop-filter: none;
   z-index: 99999;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Center the modal vertically and horizontally */
+  overflow: hidden; /* Prevent page/viewport scroll - keep modal locked to center */
   box-sizing: border-box;
 }
 
 /* Sibling Backdrop layer at the base of the stack */
 .tc-backdrop {
-  position: absolute;
+  position: fixed; /* Fixed so it remains centered and unscrollable behind the modal */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(5, 5, 7, 0.94);
-  backdrop-filter: blur(14px);
-  z-index: -2; /* Level -2: Behind particles */
-  transform: translate3d(0, 0, -10px); /* Pushes backdrop 10px backward in 3D depth */
+  width: 100vw;
+  height: 100vh;
+  background-color: #050507; /* Solid opaque deep black matching Story */
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(24, 18, 14, 0.6) 0%, transparent 70%),
+    linear-gradient(to bottom, #040405 0%, #060608 100%);
+  z-index: -2; /* Behind particles and card */
   pointer-events: none;
 }
 
@@ -37,11 +39,11 @@
   position: relative;
   width: 90%;
   max-width: 1100px;
-  height: auto;
+  height: 80vh; /* Fixed height on desktop/laptops so it fits screen beautifully */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 25px;
   box-sizing: border-box;
   z-index: 5; /* Push card content in front of floating background embers */
   transform: translate3d(0, 0, 10px); /* Elevates modal onto GPU 3D layer forward */
@@ -86,9 +88,11 @@
 .tc-content {
   display: flex;
   width: 100%;
+  height: calc(100% - 50px); /* Take up the entire remaining height of the modal */
   gap: 45px;
-  align-items: flex-start;
+  align-items: stretch; /* Stretch both columns vertically to match height */
   box-sizing: border-box;
+  overflow: hidden; /* Lock content row size */
 }
 
 /* LEFT COLUMN: THE TITAN LIST SELECTOR */
@@ -96,6 +100,7 @@
   position: relative;
   z-index: 2;
   width: 42%;
+  height: 100%; /* Match content row height */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -127,6 +132,7 @@
   height: 1px;
   background-color: rgba(196, 164, 80, 0.35);
   margin-bottom: 30px;
+  flex-shrink: 0;
 }
 
 .tc-menu {
@@ -134,6 +140,10 @@
   flex-direction: column;
   gap: 14px;
   width: 100%;
+  flex: 1; /* Allow menu list to grow and fill column */
+  overflow-y: auto; /* Enable vertical scroll inside left menu list */
+  padding-right: 8px; /* Leave breathing room for custom scrollbar */
+  box-sizing: border-box;
 }
 
 /* Vertical Menu Item */
@@ -149,6 +159,7 @@
   transition: all 0.25s ease;
   user-select: none;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .tc-menu-item:hover {
@@ -195,11 +206,14 @@
 /* RIGHT COLUMN: RENDER DISPLAY PANEL */
 .tc-right-col {
   width: 58%;
+  height: 100%; /* Fill content height */
 }
 
 .tc-display-panel {
   position: relative;
   z-index: 2;
+  width: 100%;
+  height: 100%; /* Fill column height */
   background-color: #0c0c0e;
   background-image: 
     radial-gradient(circle at center, rgba(30, 24, 20, 0.3) 0%, rgba(0,0,0,0.6) 100%),
@@ -215,6 +229,8 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* Enable vertical scroll inside right display panel details */
+  padding-right: 25px; /* Leave space for custom scrollbar */
 }
 
 /* Image Display Box */
@@ -232,6 +248,7 @@
   margin-bottom: 25px;
   perspective: 1000px; /* Activates 3D space */
   box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+  flex-shrink: 0;
 }
 
 /* Titan Image with 3D scale-tilt hover effect (Grow slightly) */
@@ -300,7 +317,98 @@
   line-height: 1.75;
   text-align: justify;
   color: rgba(245, 242, 235, 0.7);
-  margin: 0;
+  margin: 0 0 25px 0;
+}
+
+/* --- Titan Stats Meters Panel --- */
+.tc-stats-container {
+  border-top: 1px dashed rgba(196, 164, 80, 0.2);
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.tc-stats-header {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #c4a450;
+  margin: 0 0 16px 0;
+}
+
+.tc-stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tc-stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tc-stat-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+}
+
+.tc-stat-name {
+  font-family: 'Cinzel', serif, system-ui;
+  color: #d4cfc4;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.tc-stat-value {
+  font-family: 'Georgia', serif;
+  color: #c4a450;
+  font-weight: bold;
+}
+
+.tc-stat-bar-track {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.tc-stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9e2a2b 0%, #c4a450 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease-in-out;
+  box-shadow: 0 0 8px rgba(196, 164, 80, 0.4);
+}
+
+/* ==========================================================================
+   CUSTOM GORGEOUS SCROLLBARS FOR CHRONICLE TEXT & DETAILS
+   ========================================================================== */
+.tc-menu::-webkit-scrollbar,
+.tc-display-panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tc-menu::-webkit-scrollbar-track,
+.tc-display-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 3px;
+}
+
+.tc-menu::-webkit-scrollbar-thumb,
+.tc-display-panel::-webkit-scrollbar-thumb {
+  background: #c4a450;
+  border-radius: 3px;
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+}
+
+.tc-menu::-webkit-scrollbar-thumb:hover,
+.tc-display-panel::-webkit-scrollbar-thumb:hover {
+  background: #fff;
 }
 
 
@@ -315,10 +423,11 @@
 
 @media (max-width: 650px) {
   .tc-overlay { padding: 20px 0; overflow-y: auto; align-items: flex-start; }
-  .tc-modal { width: 92%; }
-  .tc-content { flex-direction: column; gap: 30px; }
-  .tc-left-col { width: 100%; }
-  .tc-right-col { width: 100%; }
-  .tc-display-panel { padding: 25px; }
+  .tc-modal { width: 92%; height: auto; }
+  .tc-content { flex-direction: column; gap: 30px; height: auto; overflow: visible; }
+  .tc-left-col { width: 100%; height: auto; }
+  .tc-menu { overflow-y: visible; height: auto; padding-right: 0; }
+  .tc-right-col { width: 100%; height: auto; }
+  .tc-display-panel { padding: 25px; height: auto; overflow-y: visible; }
   .tc-image-frame { height: 180px; }
 }

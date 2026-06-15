@@ -9,7 +9,7 @@ const LINKS = [
   { label: 'Chronicle',href: '#chronicle'},
 ]
 
-const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick }) => {
+const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onChronicleClick }) => {
   const [scrolled,    setScrolled]    = useState(false)
   const [menuOpen,    setMenuOpen]    = useState(false)
   const [activeLink,  setActiveLink]  = useState(null)
@@ -58,7 +58,7 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick }) => {
             <li key={link.label}>
               <a
                 ref={el => linksRef.current[i] = el}
-                href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers') ? 'javascript:void(0)' : link.href}
+                href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle') ? 'javascript:void(0)' : link.href}
                 className={`navbar__link ${activeLink === i ? 'navbar__link--active' : ''}`}
                 onMouseEnter={() => { setActiveLink(i); moveIndicator(i) }}
                 onClick={(e) => {
@@ -71,6 +71,12 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick }) => {
                   } else if (link.label === 'Soldiers') {
                     e.preventDefault();
                     if (onScoutsClick) onScoutsClick();
+                  } else if (link.label === 'Walls') {
+                    e.preventDefault();
+                    if (onWallsClick) onWallsClick();
+                  } else if (link.label === 'Chronicle') {
+                    e.preventDefault();
+                    if (onChronicleClick) onChronicleClick();
                   }
                 }}
               >
@@ -109,7 +115,7 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick }) => {
           {LINKS.map((link, i) => (
             <a
               key={link.label}
-              href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers') ? 'javascript:void(0)' : link.href}
+              href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle') ? 'javascript:void(0)' : link.href}
               className="navbar__drawer-link"
               style={{ '--i': i }}
               onClick={(e) => {
@@ -123,6 +129,12 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick }) => {
                 } else if (link.label === 'Soldiers') {
                   e.preventDefault();
                   if (onScoutsClick) onScoutsClick();
+                } else if (link.label === 'Walls') {
+                  e.preventDefault();
+                  if (onWallsClick) onWallsClick();
+                } else if (link.label === 'Chronicle') {
+                  e.preventDefault();
+                  if (onChronicleClick) onChronicleClick();
                 }
               }}
             >

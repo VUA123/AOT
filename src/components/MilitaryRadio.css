@@ -1,0 +1,281 @@
+/* ==========================================================================
+   MILITARY BRASS SIGNAL RADIO WIDGET - ATMOSPHERIC AMBIENT CONTROL DECK
+   ========================================================================== */
+
+.mr-widget {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 100000; /* Stays above modals and overlays */
+  background: #111115;
+  border: 1px solid rgba(196, 164, 80, 0.28);
+  outline: 3px solid rgba(196, 164, 80, 0.08);
+  outline-offset: -5px;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+  font-family: 'Cinzel', serif, system-ui;
+  transition: all 0.35s cubic-bezier(0.19, 1, 0.22, 1);
+  box-sizing: border-box;
+}
+
+.mr-widget--expanded {
+  width: 320px;
+}
+
+/* Closed Knob Trigger Box */
+.mr-closed-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mr-closed-header:hover {
+  background: rgba(196, 164, 80, 0.025);
+}
+
+.mr-signal-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #555;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+}
+
+.mr-signal-dot--active {
+  background-color: #00ff66;
+  box-shadow: 0 0 8px #00ff66, 0 0 15px rgba(0,255,102,0.6);
+  animation: mr-signal-pulse 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes mr-signal-pulse {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; transform: scale(1.1); }
+}
+
+.mr-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #c4a450;
+  text-shadow: 0 1px 2px #000;
+}
+
+.mr-dial-arrow {
+  font-size: 8px;
+  color: #9e2a2b;
+  margin-left: auto;
+}
+
+/* Expanded Control Deck */
+.mr-panel {
+  border-top: 1px solid rgba(196, 164, 80, 0.15);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-sizing: border-box;
+}
+
+/* Radio Signal Analytics Panel */
+.mr-display {
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+  padding: 12px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.85);
+}
+
+.mr-display-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.mr-lbl {
+  color: #7a7570;
+  font-weight: 600;
+}
+
+.mr-val {
+  color: #d4cfc4;
+}
+
+.mr-val--freq {
+  color: #9e2a2b;
+  font-weight: bold;
+}
+
+.mr-val--active {
+  color: #c4a450;
+  font-weight: bold;
+}
+
+.mr-display-signal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  border-top: 1px dashed rgba(255,255,255,0.05);
+  padding-top: 8px;
+}
+
+.mr-signal-strength {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 150px;
+}
+
+.mr-signal-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #9e2a2b 0%, #00ff66 100%);
+  border-radius: 2px;
+  box-shadow: 0 0 4px rgba(0,255,102,0.3);
+  transition: width 0.5s ease-in-out;
+}
+
+.mr-signal-txt {
+  font-size: 8px;
+  color: #7a7570;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+/* Master Volume Slider Control */
+.mr-volume-deck {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0,0,0,0.15);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.mr-vol-icon {
+  font-size: 11px;
+  color: #c4a450;
+}
+
+.mr-volume-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  background: #222;
+  border-radius: 2px;
+  outline: none;
+}
+
+.mr-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #c4a450;
+  border: 1px solid #111;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(196,164,80,0.6);
+  transition: all 0.2s ease;
+}
+
+.mr-volume-slider::-webkit-slider-thumb:hover {
+  background: #fff;
+  transform: scale(1.15);
+}
+
+/* Selection Deck */
+.mr-tracks-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mr-section-title {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #7a7570;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.mr-track-btn {
+  background: #16161c;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  padding: 10px 14px;
+  cursor: pointer;
+  color: #d4cfc4;
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.mr-btn-indicator {
+  color: #7a7570;
+  font-size: 10px;
+  transition: color 0.2s ease;
+}
+
+.mr-track-btn:hover {
+  background: rgba(196, 164, 80, 0.02);
+  border-color: rgba(196, 164, 80, 0.25);
+  color: #fff;
+}
+
+.mr-track-btn--active {
+  background: rgba(196, 164, 80, 0.04) !important;
+  border-color: #c4a450 !important;
+  color: #c4a450 !important;
+  box-shadow: 0 0 10px rgba(196,164,80,0.1);
+}
+
+.mr-track-btn--active .mr-btn-indicator {
+  color: #9e2a2b;
+}
+
+/* Retro Signal Brass Footer */
+.mr-footer {
+  border-top: 1px dashed rgba(196, 164, 80, 0.15);
+  padding-top: 10px;
+  text-align: center;
+}
+
+.mr-footer span {
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: #7a7570;
+  font-weight: 600;
+}
+
+/* Ambient Pulse / Spark animations */
+.animate-fade-in {
+  animation: mr-fade-in 0.3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes mr-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsiveness on narrow viewports */
+@media (max-width: 480px) {
+  .mr-widget {
+    bottom: 20px;
+    right: 20px;
+  }
+}

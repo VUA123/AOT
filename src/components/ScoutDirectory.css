@@ -1,6 +1,6 @@
 /* ==========================================================================
    SCOUT DIRECTORY DOSSIER OVERLAY - HIGH-FIDELITY (MATCHING SCREENSHOT 308)
-   ========================================================================== */
+   ========================================================================= */
 
 /* Fullscreen Pop-up overlay */
 .sd-overlay {
@@ -9,26 +9,28 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: transparent; /* Transparent parent */
-  backdrop-filter: none; /* No parent blur */
+  background-color: transparent; /* Transparent parent stack layer */
+  backdrop-filter: none;
   z-index: 99999;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Center the modal vertically and horizontally */
+  overflow: hidden; /* Prevent page/viewport scroll - keep modal locked to center */
   box-sizing: border-box;
 }
 
 /* Sibling Backdrop layer at the base of the stack */
 .sd-backdrop {
-  position: absolute;
+  position: fixed; /* Fixed so it remains centered and unscrollable behind the modal */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(5, 5, 7, 0.94);
-  backdrop-filter: blur(14px);
-  z-index: -2; /* Level -2: Behind particles */
-  transform: translate3d(0, 0, -10px); /* Pushes backdrop 10px backward in 3D depth */
+  width: 100vw;
+  height: 100vh;
+  background-color: #050507; /* Solid opaque deep black matching Story */
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(24, 18, 14, 0.6) 0%, transparent 70%),
+    linear-gradient(to bottom, #040405 0%, #060608 100%);
+  z-index: -2; /* Behind particles and card */
   pointer-events: none;
 }
 
@@ -37,11 +39,11 @@
   position: relative;
   width: 90%;
   max-width: 1100px;
-  height: auto;
+  height: 80vh; /* Fixed height on desktop/laptops so it fits screen beautifully */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 25px;
   box-sizing: border-box;
   z-index: 5; /* Push card content in front of floating background embers */
   transform: translate3d(0, 0, 10px); /* Elevates modal onto GPU 3D layer forward */
@@ -85,9 +87,11 @@
 .sd-content {
   display: flex;
   width: 100%;
+  height: calc(100% - 50px); /* Take up the entire remaining height of the modal */
   gap: 45px;
-  align-items: flex-start;
+  align-items: stretch; /* Stretch both columns vertically to match height */
   box-sizing: border-box;
+  overflow: hidden; /* Lock content row size */
 }
 
 /* LEFT COLUMN: THE SCOUT LIST SELECTOR */
@@ -95,6 +99,7 @@
   position: relative;
   z-index: 2;
   width: 42%;
+  height: 100%; /* Match content row height */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -126,6 +131,7 @@
   height: 1px;
   background-color: rgba(196, 164, 80, 0.35);
   margin-bottom: 30px;
+  flex-shrink: 0;
 }
 
 .sd-menu {
@@ -133,6 +139,10 @@
   flex-direction: column;
   gap: 14px;
   width: 100%;
+  flex: 1; /* Allow menu list to grow and fill column */
+  overflow-y: auto; /* Enable vertical scroll inside left menu list */
+  padding-right: 8px; /* Leave breathing room for custom scrollbar */
+  box-sizing: border-box;
 }
 
 /* Vertical Menu Item */
@@ -148,6 +158,7 @@
   transition: all 0.25s ease;
   user-select: none;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .sd-menu-item:hover {
@@ -213,11 +224,14 @@
 /* RIGHT COLUMN: MILITARY FILE CARD */
 .sd-right-col {
   width: 58%;
+  height: 100%; /* Fill content height */
 }
 
 .sd-dossier-card {
   position: relative; /* Enables absolute placement of stamp */
   z-index: 2;
+  width: 100%;
+  height: 100%; /* Fill column height */
   background-color: #0c0c0e;
   background-image: 
     radial-gradient(circle at center, rgba(30, 24, 20, 0.3) 0%, rgba(0,0,0,0.6) 100%),
@@ -233,6 +247,8 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* Enable vertical scroll inside right display panel details */
+  padding-right: 25px; /* Leave space for custom scrollbar */
 }
 
 /* Red Angled Confidential Stamp on Top-Right */
@@ -261,6 +277,7 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 25px;
+  flex-shrink: 0;
 }
 
 .sd-wings-symbol {
@@ -414,6 +431,7 @@
   margin-top: 25px;
   padding-top: 15px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .sd-dossier-footer span {
@@ -421,6 +439,192 @@
   font-size: 9.5px;
   letter-spacing: 0.08em;
   color: rgba(245, 242, 235, 0.3);
+}
+
+/* --- Scout Directory Armory Tabs --- */
+.sd-console-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(196, 164, 80, 0.12);
+  padding-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.sd-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--dust, #7a7570);
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: all 0.2s ease;
+}
+
+.sd-tab-btn--active {
+  color: var(--gold, #c4a450);
+  text-shadow: 0 0 6px rgba(196, 164, 80, 0.4);
+}
+
+.sd-tab-btn:hover:not(.sd-tab-btn--active) {
+  color: var(--bone, #d4cfc4);
+}
+
+.sd-console-eyebrow {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: #c4a450;
+  margin: 0 0 6px 0;
+}
+
+.sd-console-rig-name {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--white, #f0ece4);
+  margin: 0;
+  font-weight: 700;
+}
+
+.sd-console-divider {
+  width: 40px;
+  height: 2px;
+  background-color: #9e2a2b;
+  margin: 16px 0 24px 0;
+}
+
+.sd-armory-desc {
+  font-family: 'Georgia', serif;
+  font-size: 13.5px;
+  line-height: 1.75;
+  text-align: justify;
+  color: rgba(245, 242, 235, 0.7);
+  margin: 0 0 25px 0;
+}
+
+.sd-armory-specs-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(196, 164, 80, 0.08);
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 25px;
+}
+
+.sd-spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sd-spec-lbl {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: #9e2a2b;
+  font-weight: 700;
+}
+
+.sd-spec-val {
+  font-family: 'Georgia', serif;
+  font-size: 13.5px;
+  color: rgba(245, 242, 235, 0.85);
+}
+
+.sd-stats-container {
+  border-top: 1px dashed rgba(196, 164, 80, 0.2);
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.sd-stats-header {
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #c4a450;
+  margin: 0 0 16px 0;
+}
+
+.sd-stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sd-stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sd-stat-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+}
+
+.sd-stat-name {
+  font-family: 'Cinzel', serif, system-ui;
+  color: #d4cfc4;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.sd-stat-value {
+  font-family: 'Georgia', serif;
+  color: #c4a450;
+  font-weight: bold;
+}
+
+.sd-stat-bar-track {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.sd-stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9e2a2b 0%, #c4a450 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease-in-out;
+  box-shadow: 0 0 8px rgba(196, 164, 80, 0.4);
+}
+
+/* ==========================================================================
+   CUSTOM GORGEOUS SCROLLBARS FOR SCOUT DIRECTORY CHRONICLE & DETAILS
+   ========================================================================== */
+.sd-menu::-webkit-scrollbar,
+.sd-dossier-card::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sd-menu::-webkit-scrollbar-track,
+.sd-dossier-card::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 3px;
+}
+
+.sd-menu::-webkit-scrollbar-thumb,
+.sd-dossier-card::-webkit-scrollbar-thumb {
+  background: #c4a450;
+  border-radius: 3px;
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+}
+
+.sd-menu::-webkit-scrollbar-thumb:hover,
+.sd-dossier-card::-webkit-scrollbar-thumb:hover {
+  background: #fff;
 }
 
 
@@ -435,11 +639,12 @@
 
 @media (max-width: 650px) {
   .sd-overlay { padding: 20px 0; overflow-y: auto; align-items: flex-start; }
-  .sd-modal { width: 92%; }
-  .sd-content { flex-direction: column; gap: 30px; }
-  .sd-left-col { width: 100%; }
-  .sd-right-col { width: 100%; }
-  .sd-dossier-card { padding: 25px; }
+  .sd-modal { width: 92%; height: auto; }
+  .sd-content { flex-direction: column; gap: 30px; height: auto; overflow: visible; }
+  .sd-left-col { width: 100%; height: auto; }
+  .sd-menu { overflow-y: visible; height: auto; padding-right: 0; }
+  .sd-right-col { width: 100%; height: auto; }
+  .sd-dossier-card { padding: 25px; height: auto; overflow-y: visible; }
   .sd-stamp-confidential { display: none; } /* Hide stamp on mobile portrait to save room */
   .sd-profile-row { gap: 15px; }
 }
