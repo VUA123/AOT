@@ -133,13 +133,21 @@ const TitanCodex = ({ defaultTitanId = 'founding', onClose }) => {
           <span className="tc-banner-anchor">⚔</span>
         </div>
 
-        <div className="tc-content">
-          
-          {/* LEFT COLUMN: THE TITAN MENU LIST */}
-          <div className="tc-left-col">
-            <p className="tc-eyebrow">THE NINE TITANS</p>
-            <h2 className="tc-main-title">TITAN CODEX</h2>
-            <div className="tc-divider" />
+        <div className="tc-container">
+          {/* Header section matching the gold/cinzel style */}
+          <div className="tc-header">
+            <span className="tc-header-rule" />
+            <div className="tc-header-title-box">
+              <p className="tc-eyebrow">THE NINE TITANS</p>
+              <h2 className="tc-title">TITAN CODEX</h2>
+            </div>
+            <span className="tc-header-rule" />
+          </div>
+
+          <div className="tc-content">
+
+            {/* LEFT COLUMN: THE TITAN LIST SELECTOR */}
+            <div className="tc-left-col">
 
             <div className="tc-menu">
               {TITAN_LIST.map((titan) => {
@@ -171,6 +179,7 @@ const TitanCodex = ({ defaultTitanId = 'founding', onClose }) => {
                   style={activeTitan.imageStyle || {}}
                   draggable={false}
                 />
+                <div className="laser-scanner-line" />
               </div>
 
               {/* Lore Text and details */}
@@ -215,7 +224,9 @@ const TitanCodex = ({ defaultTitanId = 'founding', onClose }) => {
         </div>
 
       </div>
+
     </div>
+  </div>
   )
 }
 

@@ -10,6 +10,7 @@ import WallDefense from './components/WallDefense'
 import MilitaryRadio from './components/MilitaryRadio'
 import DeploymentMap from './components/DeploymentMap'
 import TrainingGrounds from './components/TrainingGrounds'
+import ParallaxTimeline from './components/ParallaxTimeline'
 
 function App() {
   const [showArchives, setShowArchives] = useState(false)
@@ -18,6 +19,7 @@ function App() {
   const [showWalls, setShowWalls] = useState(false)
   const [showMap, setShowMap] = useState(false)
   const [showTraining, setShowTraining] = useState(false)
+  const [showTimeline, setShowTimeline] = useState(false)
   const [selectedTitanId, setSelectedTitanId] = useState('founding')
 
   const handleTitansClick = (titanId) => {
@@ -34,6 +36,7 @@ function App() {
         onWallsClick={() => setShowWalls(true)}
         onChronicleClick={() => setShowMap(true)}
         onTrainingClick={() => setShowTraining(true)}
+        onTimelineClick={() => setShowTimeline(true)}
       />
       <Hero />
       <Story isOpen={showArchives} onClose={() => setShowArchives(false)} />
@@ -41,6 +44,7 @@ function App() {
       <WallDefense isOpen={showWalls} onClose={() => setShowWalls(false)} />
       <DeploymentMap isOpen={showMap} onClose={() => setShowMap(false)} />
       <TrainingGrounds isOpen={showTraining} onClose={() => setShowTraining(false)} />
+      <ParallaxTimeline isOpen={showTimeline} onClose={() => setShowTimeline(false)} />
       {showCodex && (
         <TitanCodex 
           defaultTitanId={selectedTitanId} 

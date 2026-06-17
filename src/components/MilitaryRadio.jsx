@@ -6,7 +6,27 @@ const TRACKS = [
   { id: 'wind', name: 'PARADIS WIND (Procedural)', frequency: 'Howling Gusts' },
   { id: 'rumble', name: 'RUMBLING TREMORS (Sub-Bass)', frequency: 'Tectonic Waves' },
   { id: 'static', name: 'MILITARY STATIC & MORSE', frequency: '84.5 MHz Band' },
-  { id: 'clock', name: 'CLOCK OF FATE (Ticking)', frequency: 'Temporal Sync' }
+  { id: 'clock', name: 'CLOCK OF FATE (Ticking)', frequency: 'Temporal Sync' },
+  { id: 'anthem', name: 'ELDIA ANTHEM (Theme Synth)', frequency: '104.0 MHz Band' }
+]
+
+const ANTHEM_MELODY = [
+  370.0, // F#4
+  493.9, // B4
+  554.4, // C#5
+  587.3, // D5
+  554.4, // C#5
+  493.9, // B4
+  554.4, // C#5
+  370.0, // F#4
+  493.9, // B4
+  554.4, // C#5
+  587.3, // D5
+  740.0, // F#5
+  659.3, // E5
+  587.3, // D5
+  554.4, // C#5
+  493.9  // B4
 ]
 
 export default function MilitaryRadio() {
@@ -261,6 +281,50 @@ export default function MilitaryRadio() {
       // Set up a rigid 1-second interval timer
       tickingTimerRef.current = setInterval(triggerTick, 1000)
       triggerTick() // Initial tick
+    }
+
+    else if (activeTrack === 'anthem') {
+      // 5. Code synthesized AoT anthem step loop
+      let step = 0
+      const tempo = 135
+      const stepTime = (60 / tempo) / 2 // eighth note step duration in seconds (222ms)
+
+      const playStep = () => {
+        if (activeTrack !== 'anthem') return
+        const freq = ANTHEM_MELODY[step % ANTHEM_MELODY.length]
+        if (freq > 0) {
+          const osc = ctx.createOscillator()
+          osc.type = 'triangle'
+          osc.frequency.setValueAtTime(freq, ctx.currentTime)
+
+          const subOsc = ctx.createOscillator()
+          subOsc.type = 'sine'
+          subOsc.frequency.setValueAtTime(freq / 2, ctx.currentTime)
+
+          const synthFilter = ctx.createBiquadFilter()
+          synthFilter.type = 'lowpass'
+          synthFilter.frequency.setValueAtTime(1200, ctx.currentTime)
+
+          const oscGain = ctx.createGain()
+          oscGain.gain.setValueAtTime(0.0, ctx.currentTime)
+          oscGain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.02)
+          oscGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2)
+
+          osc.connect(synthFilter)
+          subOsc.connect(synthFilter)
+          synthFilter.connect(oscGain)
+          oscGain.connect(masterGain)
+
+          osc.start()
+          subOsc.start()
+          osc.stop(ctx.currentTime + 0.22)
+          subOsc.stop(ctx.currentTime + 0.22)
+        }
+        step++
+      }
+
+      playStep()
+      tickingTimerRef.current = setInterval(playStep, stepTime * 1000)
     }
 
     activeNodesRef.current = nodesToCleanup

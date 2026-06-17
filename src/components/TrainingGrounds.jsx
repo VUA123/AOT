@@ -215,14 +215,34 @@ export default function TrainingGrounds({ isOpen, onClose }) {
     const size = 52 // Match CSS target size
     const pos = getRandomPosition(rect.width, rect.height, size)
 
-    // Target lifespan shrinks as level grows
-    const duration = Math.max(750, 1800 - (level * 100))
+    // Select Target Type
+    const rand = Math.random()
+    let type = 'pure'
+    let durationMultiplier = 1.0
+    let points = 10
+    let maxHits = 1
+
+    if (rand > 0.85) {
+      type = 'armored'
+      points = 30
+      maxHits = 2
+    } else if (rand > 0.65) {
+      type = 'abnormal'
+      points = 20
+      durationMultiplier = 0.55
+    }
+
+    const duration = Math.max(600, (1800 - (level * 100)) * durationMultiplier)
 
     const newTarget = {
       id,
       x: pos.x,
       y: pos.y,
-      duration
+      duration,
+      type,
+      points,
+      hits: 0,
+      maxHits
     }
 
     setTargets(prev => [...prev, newTarget])
@@ -265,17 +285,29 @@ export default function TrainingGrounds({ isOpen, onClose }) {
 
   const handleTargetSlice = (id, e) => {
     e.stopPropagation()
-    playSlashSound()
 
-    setScore(prev => {
-      const nextScore = prev + 10
-      // Scale level every 50 points
-      setLevel(Math.floor(nextScore / 50) + 1)
-      return nextScore
+    setTargets(prev => {
+      const target = prev.find(t => t.id === id)
+      if (!target) return prev
+
+      const nextHits = target.hits + 1
+
+      if (target.type === 'armored' && nextHits < target.maxHits) {
+        // First slice on Armored target: crack armor
+        playSlashSound()
+        return prev.map(t => t.id === id ? { ...t, hits: nextHits } : t)
+      } else {
+        // Final slice or standard target slice: destroy target
+        playSlashSound()
+        setScore(prevScore => {
+          const nextScore = prevScore + target.points
+          // Scale level every 50 points
+          setLevel(Math.floor(nextScore / 50) + 1)
+          return nextScore
+        })
+        return prev.filter(t => t.id !== id)
+      }
     })
-
-    // Remove target from board
-    setTargets(prev => prev.filter(t => t.id !== id))
   }
 
   // EVALUATING PERFORMANCE RANK
@@ -304,12 +336,20 @@ export default function TrainingGrounds({ isOpen, onClose }) {
         </div>
 
         <div className="tg-container">
-          
-          {/* LEFT COLUMN: THE SCOREBOARD CARD */}
-          <div className="tg-left-col">
-            <p className="tg-eyebrow">REFLEX CONDITIONING</p>
-            <h2 className="tg-main-title">CADET GYM</h2>
-            <div className="tg-divider" />
+          {/* Header section matching the gold/cinzel style */}
+          <div className="tg-header">
+            <span className="tg-header-rule" />
+            <div className="tg-header-title-box">
+              <p className="tg-eyebrow">REFLEX CONDITIONING</p>
+              <h2 className="tg-title">CADET GYM</h2>
+            </div>
+            <span className="tg-header-rule" />
+          </div>
+
+          <div className="tg-content">
+            
+            {/* LEFT COLUMN: THE SCOREBOARD CARD */}
+            <div className="tg-left-col">
 
             <div className="tg-scoreboard-card">
               <div className="tg-stamp">SURVEY OPS</div>
@@ -385,25 +425,30 @@ export default function TrainingGrounds({ isOpen, onClose }) {
                 <div className="tg-panel-tag">TACTICAL COMBAT ARENA - STAGE {level}</div>
                 
                 {/* Dynamically spawned target elements */}
-                {targets.map(target => (
-                  <div
-                    key={target.id}
-                    className="tg-target-circle"
-                    style={{
-                      left: target.x,
-                      top: target.y,
-                      '--duration': `${target.duration}ms`
-                    }}
-                    onClick={(e) => handleTargetSlice(target.id, e)}
-                  >
-                    {/* Shrinking outer boundary countdown circle */}
-                    <div className="tg-target-countdown" />
-                    {/* Solid inner targeting nape core */}
-                    <div className="tg-target-core">
-                      <span className="tg-target-blade">⚔</span>
+                {targets.map(target => {
+                  const isCracked = target.type === 'armored' && target.hits > 0
+                  return (
+                    <div
+                      key={target.id}
+                      className={`tg-target-circle tg-target-circle--${target.type} ${isCracked ? 'tg-target-circle--cracked' : ''}`}
+                      style={{
+                        left: target.x,
+                        top: target.y,
+                        '--duration': `${target.duration}ms`
+                      }}
+                      onClick={(e) => handleTargetSlice(target.id, e)}
+                    >
+                      {/* Shrinking outer boundary countdown circle */}
+                      <div className="tg-target-countdown" />
+                      {/* Solid inner targeting nape core */}
+                      <div className="tg-target-core">
+                        <span className="tg-target-blade">
+                          {target.type === 'armored' ? (isCracked ? '💥' : '🛡️') : '⚔'}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
 
@@ -439,6 +484,8 @@ export default function TrainingGrounds({ isOpen, onClose }) {
         </div>
 
       </div>
+
     </div>
+  </div>
   )
 }

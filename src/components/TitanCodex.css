@@ -39,14 +39,19 @@
   position: relative;
   width: 90%;
   max-width: 1100px;
-  height: 80vh; /* Fixed height on desktop/laptops so it fits screen beautifully */
+  height: 80vh; /* Fixed height matching the premium app style */
+  background-color: #0c0c0e;
+  border: 1px solid rgba(196, 164, 80, 0.25);
+  border-radius: 6px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.95);
+  padding: 40px;
+  box-sizing: border-box;
+  z-index: 5;
+  transform: translate3d(0, 0, 10px);
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 25px;
-  box-sizing: border-box;
-  z-index: 5; /* Push card content in front of floating background embers */
-  transform: translate3d(0, 0, 10px); /* Elevates modal onto GPU 3D layer forward */
+  overflow: hidden; /* Prevent general spilling out of card bounds */
 }
 
 /* --- Top Gold Close Banner --- */
@@ -58,9 +63,9 @@
   cursor: pointer;
   border-bottom: 1px solid rgba(196, 164, 80, 0.15);
   padding-bottom: 8px;
-  width: auto;
+  width: 100%;
   z-index: 10;
-  transform: translate3d(0, 0, 10px); /* Elevates banner onto GPU 3D layer forward */
+  flex-shrink: 0;
 }
 
 .tc-banner-anchor {
@@ -83,12 +88,62 @@
   color: #fff;
 }
 
+.tc-container {
+  width: 100%;
+  height: calc(100% - 40px); /* Fill space below top close banner */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header style matching standard cinzel */
+.tc-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.tc-header-rule {
+  flex: 0 1 150px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold, #c4a450), transparent);
+  opacity: 0.5;
+}
+
+.tc-header-title-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tc-eyebrow {
+  font-family: var(--f-cinzel, 'Cinzel', serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--gold, #c4a450);
+  margin: 0;
+}
+
+.tc-title {
+  font-family: var(--f-display, 'Cinzel Decorative', serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white, #f0ece4);
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
 
 /* --- THE CONTENT ROW --- */
 .tc-content {
   display: flex;
   width: 100%;
-  height: calc(100% - 50px); /* Take up the entire remaining height of the modal */
+  height: calc(100% - 60px); /* Take up the entire remaining height of the container */
   gap: 45px;
   align-items: stretch; /* Stretch both columns vertically to match height */
   box-sizing: border-box;
@@ -430,4 +485,26 @@
   .tc-right-col { width: 100%; height: auto; }
   .tc-display-panel { padding: 25px; height: auto; overflow-y: visible; }
   .tc-image-frame { height: 180px; }
+}
+
+/* Golden Laser Scanline */
+@keyframes laser-sweep {
+  0% { top: 0%; opacity: 0.15; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0.15; }
+}
+
+.laser-scanner-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold, #c4a450), transparent);
+  box-shadow: 
+    0 0 8px var(--gold, #c4a450),
+    0 0 15px rgba(196, 164, 80, 0.6);
+  z-index: 10;
+  pointer-events: none;
+  animation: laser-sweep 4s linear infinite;
 }

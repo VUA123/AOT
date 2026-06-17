@@ -56,7 +56,127 @@ const WALLS_DATA = [
 export default function WallDefense({ isOpen, onClose }) {
   const [selectedWall, setSelectedWall] = useState('maria')
   const [exposeTitan, setExposeTitan] = useState(false)
-  const [currentTab, setCurrentTab] = useState('intelligence') // 'intelligence', 'blueprint'
+  const [currentTab, setCurrentTab] = useState('intelligence') // 'intelligence', 'blueprint', 'simulator'
+
+  // Simulator states
+  const [simState, setSimState] = useState('idle') // 'idle', 'active', 'resolving', 'complete'
+  const [simLog, setSimLog] = useState([])
+  const [simIntegrity, setSimIntegrity] = useState(100)
+  const [simResult, setSimResult] = useState(null)
+
+  const handleWallSelect = (wallId) => {
+    setSelectedWall(wallId)
+    setSimState('idle')
+    setSimLog([])
+    setSimIntegrity(100)
+    setSimResult(null)
+  }
+
+  const runSiegeSimulation = (decision) => {
+    setSimState('resolving')
+    setSimIntegrity(100)
+    setSimLog([])
+
+    // Logs timeline
+    const steps = []
+    let finalIntegrity = 100
+    let outcomeTitle = ""
+    let outcomeDesc = ""
+
+    if (decision === 'cannons') {
+      steps.push(`[00:01] 🚨 Cannons loaded. Southern battery batteries initiating barrage on approaching Pure Titans.`)
+      steps.push(`[00:15] 💥 Shell impact confirmed. Titan frontline decimated, but cannon reload speeds are lagging.`)
+      
+      if (selectedWall === 'maria') {
+        steps.push(`[00:30] ⚠️ WARNING: Armored Titan spotted. Shrapnel rounds bouncing off structural plating!`)
+        steps.push(`[00:45] 💥 IMPACT! The Armored Titan rammed the gateway before the heavy cannons could re-aim.`)
+        finalIntegrity = 25
+        outcomeTitle = "TACTICAL BREACH - SYSTEM FAILED"
+        outcomeDesc = "Wall Maria's outer gate was shattered by the Armored Titan. Heavy artillery was insufficient to stop a hardened charging titan. Casualty rates: 85% of Garrison squads lost."
+      } else if (selectedWall === 'rose') {
+        steps.push(`[00:30] 🛡️ Heavy caliber shells successfully tracking targets. Outpost garrison maintaining defensive lines.`)
+        steps.push(`[00:45] ✅ Abnormal vanguard wiped out before breaching inner perimeter.`)
+        finalIntegrity = 80
+        outcomeTitle = "SECURE DEFENSE - SYSTEM SECURED"
+        outcomeDesc = "Wall Rose outpost defended successfully! Cannon fire held the horde at bay with minimal structure damage. Casualty rates: 15%."
+      } else { // sheena
+        steps.push(`[00:30] 💎 Elite Royal artillery firing specialized cluster flares, stunning all incoming abnormal threats.`)
+        steps.push(`[00:45] ✅ Total annihilation of threat vectors. No titans breached outer gate bounds.`)
+        finalIntegrity = 100
+        outcomeTitle = "IMPERIAL VICTORY - IMMACULATE"
+        outcomeDesc = "Wall Sheena remains pristine. The royal forces easily vaporized the minor titan intrusion. Casualty rates: 0%."
+      }
+    } else if (decision === 'scouts') {
+      steps.push(`[00:01] ⚔️ Survey Corps launching off gate parapets! Scout squadrons executing high-velocity flanking orbits.`)
+      steps.push(`[00:15] 🩸 Blades confirmed slicing! Captain Levi's elite vanguard is shredding Titan napes rapidly.`)
+
+      if (selectedWall === 'maria') {
+        steps.push(`[00:30] ⚔️ Scout blades cracking on Colossal steam vents, but scouts maintain strategic distraction.`)
+        steps.push(`[00:45] ✅ Tactical withdrawal. Gate preserved by heroic sacrifice of Survey Corps vanguard!`)
+        finalIntegrity = 60
+        outcomeTitle = "HEROIC STALEMATE - PRESERVED"
+        outcomeDesc = "Wall Maria held! While scout casualties were extremely severe (50% loss), their high-velocity maneuver defense distracted the titans long enough to secure the gateway."
+      } else if (selectedWall === 'rose') {
+        steps.push(`[00:30] 🦅 Squad leader Armin coordinates a flanking pincer, trapping abnormal titans in the narrow streets.`)
+        steps.push(`[00:45] ✅ Flawless sweep complete. No gate damage recorded.`)
+        finalIntegrity = 95
+        outcomeTitle = "ELITE STRATEGIC TRIUMPH"
+        outcomeDesc = "Wall Rose was defended with masterclass tactical maneuver warfare. Scouts dominated the airspace. Casualty rates: 8%."
+      } else { // sheena
+        steps.push(`[00:30] ⚔️ Elite Survey Corps squad easily maneuvers around the central district structures.`)
+        steps.push(`[00:45] ✅ All titan threat vectors neutralized within seconds of detection.`)
+        finalIntegrity = 100
+        outcomeTitle = "ABSOLUTE INTERIOR SWEEP"
+        outcomeDesc = "Sheena walls held with flawless coordination. The scouts protected the inner crown. Casualty rates: 1%."
+      }
+    } else { // gate
+      steps.push(`[00:01] ⚙️ Heavy gears groaning. emergency gate locking protocols.`)
+      steps.push(`[00:15] 🧱 Iron portcullis lowered. Citizens trapped behind the barrier screaming, but gate is secured.`)
+
+      if (selectedWall === 'maria') {
+        steps.push(`[00:30] ⚠️ WARNING: Massive pure Titan force piling up against the outer iron portcullis. Structure buckling!`)
+        steps.push(`[00:45] 🚨 BREACH! The gate failed under pure physical pressure. Titans are pouring into the district.`)
+        finalIntegrity = 0
+        outcomeTitle = "TOTAL CATASTROPHIC BREACH"
+        outcomeDesc = "Wall Maria gate collapsed completely. Locking the gate only clustered the titans, leading to structural buckling. Shiganshina is lost."
+      } else if (selectedWall === 'rose') {
+        steps.push(`[00:30] ⚙️ Support struts holding. Titans banging on the iron gate but unable to penetrate the thick alloys.`)
+        steps.push(`[00:45] ✅ Gate held, though external structural components suffered moderate buckling.`)
+        finalIntegrity = 50
+        outcomeTitle = "COMPROMISED STABILITY - HELD"
+        outcomeDesc = "Wall Rose gate held, but at a terrible moral cost: hundreds of outer district refugees were locked outside. Gate requires immediate reinforcement."
+      } else { // sheena
+        steps.push(`[00:30] 💎 Double-layered gold-alloy interior gates sealed. Impenetrable barrier.`)
+        steps.push(`[00:45] ✅ Complete structural immunity. Gate completely unscathed.`)
+        finalIntegrity = 90
+        outcomeTitle = "IMPERIAL SECLUSION SECURED"
+        outcomeDesc = "Wall Sheena gate sealed perfectly. The inner nobility is safe. However, outer-wall populations suffer morale drops."
+      }
+    }
+
+    // Play logs step by step with timeouts
+    let i = 0
+    const logInterval = setInterval(() => {
+      if (i < steps.length) {
+        setSimLog(prev => [...prev, steps[i]])
+        // Lower gate integrity progressively
+        if (i === 1) {
+          setSimIntegrity(Math.floor(100 - (100 - finalIntegrity) * 0.4))
+        } else if (i === 3) {
+          setSimIntegrity(finalIntegrity)
+        }
+        i++
+      } else {
+        clearInterval(logInterval)
+        setSimState('complete')
+        setSimResult({
+          title: outcomeTitle,
+          desc: outcomeDesc,
+          integrity: finalIntegrity
+        })
+      }
+    }, 1200)
+  }
 
   // Block background scroll when archives pop-up is active
   useEffect(() => {
@@ -118,7 +238,7 @@ export default function WallDefense({ isOpen, onClose }) {
                           key={wall.id}
                           className={`wd-wall-layer wd-wall-layer--${wall.id} ${isActive ? 'wd-wall-layer--active' : ''} ${exposeTitan ? 'wd-wall-layer--cracked' : ''}`}
                           style={{ zIndex }}
-                          onClick={() => setSelectedWall(wall.id)}
+                          onClick={() => handleWallSelect(wall.id)}
                         >
                           {/* Brick Texture and Battlements */}
                           <div className="wd-wall-bricks">
@@ -216,6 +336,12 @@ export default function WallDefense({ isOpen, onClose }) {
                   >
                     📐 BLUEPRINT SPECS
                   </button>
+                  <button 
+                    className={`wd-tab-btn ${currentTab === 'simulator' ? 'wd-tab-btn--active' : ''}`}
+                    onClick={() => setCurrentTab('simulator')}
+                  >
+                    🚨 SIEGE SIMULATOR
+                  </button>
                 </div>
 
                 {/* Tab Content: MILITARY INTEL */}
@@ -286,6 +412,95 @@ export default function WallDefense({ isOpen, onClose }) {
                         <p className="wd-forbidden-desc">
                           Spectrographic scans confirm Wall is entirely composed of crystallization-bound skinless Titans, standing shoulder-to-shoulder. They must not receive direct sunlight, or they will wake.
                         </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Tab Content: SIEGE SIMULATOR */}
+                {currentTab === 'simulator' && (
+                  <div className="wd-tab-content wd-sim-content animate-fade-in">
+                    <p className="wd-console-eyebrow">TACTICAL OPERATION</p>
+                    <h3 className="wd-console-wall-name">SIEGE SIMULATOR</h3>
+                    <div className="wd-console-divider" />
+
+                    {simState === 'idle' && (
+                      <div className="wd-sim-idle animate-fade-in">
+                        <p className="wd-sim-description">
+                          Initialize a real-time defense scenario on **{activeWall.name}** to test tactical outcome projections against sudden Titan invasions.
+                        </p>
+                        <button className="wd-sim-start-btn" onClick={() => setSimState('active')}>
+                          INITIALIZE SIEGE RADAR
+                          <span className="wd-sim-btn-glow" />
+                        </button>
+                      </div>
+                    )}
+
+                    {(simState === 'active' || simState === 'resolving' || simState === 'complete') && (
+                      <div className="wd-sim-active-board">
+                        
+                        {/* Status bar */}
+                        <div className="wd-sim-status-header">
+                          <div className="wd-sim-integrity-block">
+                            <span className="wd-sim-lbl">GATE STRUCTURAL INTEGRITY</span>
+                            <div className="wd-sim-bar-track">
+                              <div 
+                                className={`wd-sim-bar-fill ${simIntegrity < 40 ? 'wd-sim-bar-fill--danger' : simIntegrity < 75 ? 'wd-sim-bar-fill--warning' : ''}`}
+                                style={{ width: `${simIntegrity}%` }}
+                              />
+                            </div>
+                            <span className="wd-sim-integrity-val">{simIntegrity}% INTEGRITY</span>
+                          </div>
+                        </div>
+
+                        {/* Interactive Decision buttons */}
+                        {simState === 'active' && (
+                          <div className="wd-sim-decisions animate-fade-in">
+                            <p className="wd-sim-decisions-title">SELECT TACTICAL RESPONSE:</p>
+                            <div className="wd-sim-decision-grid">
+                              <button className="wd-sim-decision-btn" onClick={() => runSiegeSimulation('cannons')}>
+                                💥 DEPLOY GARRISON CANNONS
+                              </button>
+                              <button className="wd-sim-decision-btn" onClick={() => runSiegeSimulation('scouts')}>
+                                🦅 ORDER SURVEY CORPS COUNTER-CHARGE
+                              </button>
+                              <button className="wd-sim-decision-btn" onClick={() => runSiegeSimulation('gate')}>
+                                ⚙️ EMERGENCY SEAL DISTRICT GATE
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Log viewer */}
+                        {(simState === 'resolving' || simState === 'complete') && (
+                          <div className="wd-sim-log-viewer">
+                            <p className="wd-sim-log-title">REAL-TIME RADAR TELEMETRY LOG:</p>
+                            <div className="wd-sim-log-box">
+                              {simLog.map((log, index) => (
+                                <p key={index} className="wd-sim-log-line animate-fade-in">{log}</p>
+                              ))}
+                              {simState === 'resolving' && (
+                                <div className="wd-sim-log-loading">📡 ANALYZING DEFENSE VECTORS...</div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Final Result Card */}
+                        {simState === 'complete' && simResult && (
+                          <div className="wd-sim-result-card animate-fade-in">
+                            <p className="wd-sim-result-title">🛡️ {simResult.title}</p>
+                            <p className="wd-sim-result-desc">{simResult.desc}</p>
+                            <button className="wd-sim-reset-btn" onClick={() => {
+                              setSimState('idle')
+                              setSimLog([])
+                              setSimIntegrity(100)
+                              setSimResult(null)
+                            }}>
+                              RESET SIMULATOR DECK
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

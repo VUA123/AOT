@@ -160,13 +160,21 @@ const ScoutDirectory = ({ defaultScoutId = 'eren', onClose }) => {
           <span className="sd-banner-anchor">⚔</span>
         </div>
 
-        <div className="sd-content">
-          
-          {/* LEFT COLUMN: THE SCOUT MENU LIST */}
-          <div className="sd-left-col">
-            <p className="sd-eyebrow">MILITARY REGISTRY</p>
-            <h2 className="sd-main-title">SCOUT DIRECTORY</h2>
-            <div className="sd-divider" />
+        <div className="sd-container">
+          {/* Header section matching the gold/cinzel style */}
+          <div className="sd-header">
+            <span className="sd-header-rule" />
+            <div className="sd-header-title-box">
+              <p className="sd-eyebrow">MILITARY REGISTRY</p>
+              <h2 className="sd-title">SCOUT DIRECTORY</h2>
+            </div>
+            <span className="sd-header-rule" />
+          </div>
+
+          <div className="sd-content">
+            
+            {/* LEFT COLUMN: THE SCOUT MENU LIST */}
+            <div className="sd-left-col">
 
             <div className="sd-menu">
               {SCOUT_LIST.map((scout) => {
@@ -236,6 +244,7 @@ const ScoutDirectory = ({ defaultScoutId = 'eren', onClose }) => {
                       <div className="sd-photo-corner sd-photo-corner--tr" />
                       <div className="sd-photo-corner sd-photo-corner--bl" />
                       <div className="sd-photo-corner sd-photo-corner--br" />
+                      <div className="laser-scanner-line" />
                     </div>
 
                     <div className="sd-meta-text">
@@ -343,7 +352,9 @@ const ScoutDirectory = ({ defaultScoutId = 'eren', onClose }) => {
         </div>
 
       </div>
+
     </div>
+  </div>
   )
 }
 

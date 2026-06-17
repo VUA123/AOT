@@ -88,13 +88,21 @@ export default function DeploymentMap({ isOpen, onClose }) {
           <span className="tm-banner-anchor">⚔</span>
         </div>
 
-        <div className="tm-content">
-          
-          {/* LEFT COLUMN: LOCATION SELECT MODULE */}
-          <div className="tm-left-col">
-            <p className="tm-eyebrow">TERRITORIAL CONTROL</p>
-            <h2 className="tm-main-title">TACTICAL MAP</h2>
-            <div className="tm-divider" />
+        <div className="tm-container">
+          {/* Header section matching the gold/cinzel style */}
+          <div className="tm-header">
+            <span className="tm-header-rule" />
+            <div className="tm-header-title-box">
+              <p className="tm-eyebrow">TERRITORIAL CONTROL</p>
+              <h2 className="tm-title">TACTICAL MAP</h2>
+            </div>
+            <span className="tm-header-rule" />
+          </div>
+
+          <div className="tm-content">
+            
+            {/* LEFT COLUMN: LOCATION SELECT MODULE */}
+            <div className="tm-left-col">
 
             <div className="tm-menu">
               {LOCATIONS.map((loc) => {
@@ -164,6 +172,7 @@ export default function DeploymentMap({ isOpen, onClose }) {
                     )
                   })}
                 </svg>
+                <div className="laser-scanner-line" />
               </div>
             </div>
 
@@ -203,6 +212,8 @@ export default function DeploymentMap({ isOpen, onClose }) {
         </div>
 
       </div>
+
     </div>
+  </div>
   )
 }
