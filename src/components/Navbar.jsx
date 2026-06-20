@@ -11,12 +11,32 @@ const LINKS = [
   { label: 'Timeline', href: '#timeline' },
 ]
 
-const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onChronicleClick, onTrainingClick, onTimelineClick }) => {
+const Navbar = ({ 
+  onStoryClick, 
+  onTitansClick, 
+  onScoutsClick, 
+  onWallsClick, 
+  onChronicleClick, 
+  onTrainingClick, 
+  onTimelineClick, 
+  onLogout, 
+  onSelectGame,
+  onMenuToggle,
+  user 
+}) => {
   const [scrolled,    setScrolled]    = useState(false)
   const [menuOpen,    setMenuOpen]    = useState(false)
   const [activeLink,  setActiveLink]  = useState(null)
+  const [gamesOpen,   setGamesOpen]   = useState(false)
+  
   const indicatorRef = useRef(null)
   const linksRef     = useRef([])
+
+  useEffect(() => {
+    if (onMenuToggle) {
+      onMenuToggle(menuOpen)
+    }
+  }, [menuOpen, onMenuToggle])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -40,6 +60,14 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onCh
     setActiveLink(null)
   }
 
+  // Filter links for desktop view (first 4 links)
+  const desktopLinks = LINKS.slice(0, 4)
+
+  // Filter links for drawer/sidebar view (remaining links)
+  const drawerLinks = LINKS.filter(link => 
+    !['Story', 'Titans', 'Soldiers', 'Walls', 'Training'].includes(link.label)
+  )
+
   return (
     <>
       <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''} ${menuOpen ? 'navbar--open' : ''}`}>
@@ -56,36 +84,19 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onCh
         </a>
 
         <ul className="navbar__links" onMouseLeave={hideIndicator}>
-          {LINKS.map((link, i) => (
+          {desktopLinks.map((link, i) => (
             <li key={link.label}>
               <a
                 ref={el => linksRef.current[i] = el}
-                href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle' || link.label === 'Training' || link.label === 'Timeline') ? 'javascript:void(0)' : link.href}
+                href="javascript:void(0)"
                 className={`navbar__link ${activeLink === i ? 'navbar__link--active' : ''}`}
                 onMouseEnter={() => { setActiveLink(i); moveIndicator(i) }}
                 onClick={(e) => {
-                  if (link.label === 'Story') {
-                    e.preventDefault();
-                    if (onStoryClick) onStoryClick();
-                  } else if (link.label === 'Titans') {
-                    e.preventDefault();
-                    if (onTitansClick) onTitansClick();
-                  } else if (link.label === 'Soldiers') {
-                    e.preventDefault();
-                    if (onScoutsClick) onScoutsClick();
-                  } else if (link.label === 'Walls') {
-                    e.preventDefault();
-                    if (onWallsClick) onWallsClick();
-                  } else if (link.label === 'Chronicle') {
-                    e.preventDefault();
-                    if (onChronicleClick) onChronicleClick();
-                  } else if (link.label === 'Training') {
-                    e.preventDefault();
-                    if (onTrainingClick) onTrainingClick();
-                  } else if (link.label === 'Timeline') {
-                    e.preventDefault();
-                    if (onTimelineClick) onTimelineClick();
-                  }
+                  e.preventDefault()
+                  if (link.label === 'Story') if (onStoryClick) onStoryClick()
+                  if (link.label === 'Titans') if (onTitansClick) onTitansClick()
+                  if (link.label === 'Soldiers') if (onScoutsClick) onScoutsClick()
+                  if (link.label === 'Walls') if (onWallsClick) onWallsClick()
                 }}
               >
                 <span className="navbar__link-num">0{i + 1}</span>
@@ -96,69 +107,100 @@ const Navbar = ({ onStoryClick, onTitansClick, onScoutsClick, onWallsClick, onCh
           <div className="navbar__indicator" ref={indicatorRef} />
         </ul>
 
-        <a href="#watch" className="navbar__cta">
-          <span className="navbar__cta-inner">
-            <span>Watch Now</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </span>
-          <span className="navbar__cta-bg" />
-        </a>
+        <div className="navbar__right">
+          <div className="navbar__rule navbar__rule--right" />
 
-        <div className="navbar__rule navbar__rule--right" />
-
-        <button
-          className={`navbar__burger ${menuOpen ? 'navbar__burger--open' : ''}`}
-          onClick={() => setMenuOpen(v => !v)}
-          aria-label="Toggle menu"
-        >
-          <span /><span /><span />
-        </button>
+          <button
+            className={`navbar__burger ${menuOpen ? 'navbar__burger--open' : ''}`}
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label="Toggle menu"
+          >
+            <span /><span /><span />
+          </button>
+        </div>
 
       </nav>
 
-      <div className={`navbar__drawer ${menuOpen ? 'navbar__drawer--open' : ''}`}>
-        <div className="navbar__drawer-inner">
-          {LINKS.map((link, i) => (
-            <a
-              key={link.label}
-              href={(link.label === 'Story' || link.label === 'Titans' || link.label === 'Soldiers' || link.label === 'Walls' || link.label === 'Chronicle' || link.label === 'Training' || link.label === 'Timeline') ? 'javascript:void(0)' : link.href}
-              className="navbar__drawer-link"
-              style={{ '--i': i }}
-              onClick={(e) => {
-                setMenuOpen(false);
-                if (link.label === 'Story') {
-                  e.preventDefault();
-                  if (onStoryClick) onStoryClick();
-                } else if (link.label === 'Titans') {
-                  e.preventDefault();
-                  if (onTitansClick) onTitansClick();
-                } else if (link.label === 'Soldiers') {
-                  e.preventDefault();
-                  if (onScoutsClick) onScoutsClick();
-                } else if (link.label === 'Walls') {
-                  e.preventDefault();
-                  if (onWallsClick) onWallsClick();
-                } else if (link.label === 'Chronicle') {
-                  e.preventDefault();
-                  if (onChronicleClick) onChronicleClick();
-                } else if (link.label === 'Training') {
-                  e.preventDefault();
-                  if (onTrainingClick) onTrainingClick();
-                } else if (link.label === 'Timeline') {
-                  e.preventDefault();
-                  if (onTimelineClick) onTimelineClick();
-                }
-              }}
+      {/* Slide-out Right Sidebar */}
+      <div className={`navbar__drawer ${menuOpen ? 'navbar__drawer--open' : ''}`} onClick={() => setMenuOpen(false)}>
+        <div className="navbar__drawer-inner" onClick={(e) => e.stopPropagation()}>
+          
+          {/* Close trigger for sidebar */}
+          <button className="navbar__drawer-close" onClick={() => setMenuOpen(false)}>✕</button>
+
+          {/* Premium Scout Profile Card */}
+          {user && (
+            <div className="navbar__profile">
+              <div className="navbar__profile-avatar">
+                <span className="navbar__profile-wings">⸸</span>
+              </div>
+              <div className="navbar__profile-info">
+                <div className="navbar__profile-header">SCOUT REGIMENT ID CARD</div>
+                <div className="navbar__profile-name">{user.name.toUpperCase()}</div>
+                <div className="navbar__profile-details">
+                  <span>ID: #{user.id || '1'}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Drawer Links (Chronicle and Timeline) */}
+          <div className="navbar__drawer-links-group">
+            {drawerLinks.map((link, i) => (
+              <a
+                key={link.label}
+                href="javascript:void(0)"
+                className="navbar__drawer-link"
+                style={{ '--i': i }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setMenuOpen(false)
+                  if (link.label === 'Chronicle') if (onChronicleClick) onChronicleClick()
+                  if (link.label === 'Timeline') if (onTimelineClick) onTimelineClick()
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Play Game Accordion Menu */}
+          <div className="navbar__drawer-accordion">
+            <button 
+              className={`navbar__drawer-accordion-trigger ${gamesOpen ? 'navbar__drawer-accordion-trigger--open' : ''}`}
+              onClick={() => setGamesOpen(v => !v)}
             >
-              <span className="navbar__drawer-num">0{i + 1}</span>
-              {link.label}
-            </a>
-          ))}
-          <a href="#watch" className="navbar__drawer-cta" onClick={() => setMenuOpen(false)}>
-            Watch Now
-          </a>
+              <span>🎮 PLAY GAME</span>
+              <span className="navbar__accordion-arrow">{gamesOpen ? '▲' : '▼'}</span>
+            </button>
+            
+            {gamesOpen && (
+              <div className="navbar__drawer-accordion-content">
+                <button className="navbar__game-link" onClick={() => { setMenuOpen(false); onSelectGame('training'); }}>
+                  01 Target Practice
+                </button>
+                <button className="navbar__game-link" onClick={() => { setMenuOpen(false); onSelectGame('cannon'); }}>
+                  02 Trost Cannon Defense
+                </button>
+                <button className="navbar__game-link" onClick={() => { setMenuOpen(false); onSelectGame('odm'); }}>
+                  03 ODM Gear Reflexes
+                </button>
+                <button className="navbar__game-link" onClick={() => { setMenuOpen(false); onSelectGame('match'); }}>
+                  04 Titan Memory Match
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Logout Action at the very bottom */}
+          {onLogout && (
+            <button 
+              className="navbar__drawer-cta navbar__drawer-cta--logout" 
+              onClick={() => { setMenuOpen(false); onLogout(); }}
+            >
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </>

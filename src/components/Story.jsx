@@ -6,7 +6,9 @@ import './Story.css'
 const Story = ({ isOpen, onClose }) => {
   const [view, setView] = useState('shelf') // 'shelf', 'directory', 'book'
   const [activeBook, setActiveBook] = useState(null)
-  const [spreadIndex, setSpreadIndex] = useState(0) // 0 = Spread 1 (Page 1 & 2), 1 = Spread 2 (Page 3 & 4)
+  const [displayIndex, setDisplayIndex] = useState(0) // Tracks the current active spread (0 to N-1)
+  const [animating, setAnimating] = useState(false) // Prevents overlapping clicks
+  const [animationClass, setAnimationClass] = useState('') // 'flip-next', 'flip-prev', or ''
 
   // Block background scrolling when archives pop-up is active
   useEffect(() => {
@@ -22,18 +24,46 @@ const Story = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null
 
+  const getSpread = (index) => {
+    if (!activeBook || !activeBook.spreads) return null
+    const safeIndex = Math.max(0, Math.min(index, activeBook.spreads.length - 1))
+    return activeBook.spreads[safeIndex]
+  }
+
   const handleBookSelect = (book) => {
     setActiveBook(book)
-    setSpreadIndex(0)
+    setDisplayIndex(0)
+    setAnimating(false)
+    setAnimationClass('')
     setView('book')
   }
 
   const handlePrevSpread = () => {
-    if (spreadIndex > 0) setSpreadIndex(0)
+    if (animating || displayIndex <= 0) return
+
+    setAnimating(true)
+    setAnimationClass('flip-prev')
+
+    // Complete the page index update when animation finishes (850ms)
+    setTimeout(() => {
+      setDisplayIndex((prev) => prev - 1)
+      setAnimating(false)
+      setAnimationClass('')
+    }, 850)
   }
 
   const handleNextSpread = () => {
-    if (spreadIndex < 1) setSpreadIndex(1)
+    if (animating || !activeBook || displayIndex >= activeBook.spreads.length - 1) return
+
+    setAnimating(true)
+    setAnimationClass('flip-next')
+
+    // Complete index transition and reset animation class when finished (850ms)
+    setTimeout(() => {
+      setDisplayIndex((prev) => prev + 1)
+      setAnimating(false)
+      setAnimationClass('')
+    }, 850)
   }
 
   const handleLeaveClick = () => {
@@ -41,21 +71,45 @@ const Story = ({ isOpen, onClose }) => {
     onClose()
   }
 
+  const currentSpread = getSpread(displayIndex)
+  const nextSpread = getSpread(displayIndex + 1)
+  const prevSpread = getSpread(displayIndex - 1)
+
+  let leftPageData = currentSpread
+  let rightPageData = currentSpread
+  let flippableFrontData = currentSpread
+  let flippableBackData = currentSpread
+
+  if (animating) {
+    if (animationClass === 'flip-next') {
+      leftPageData = currentSpread
+      rightPageData = nextSpread
+      flippableFrontData = currentSpread
+      flippableBackData = nextSpread
+    } else if (animationClass === 'flip-prev') {
+      leftPageData = prevSpread
+      rightPageData = currentSpread
+      flippableFrontData = prevSpread
+      flippableBackData = currentSpread
+    }
+  }
+
   return (
     <section className="story-sec">
       <div className="story-ambient" />
 
-      {/* Top Universal Banner (Leave Chronicles) - Styled exactly as in screenshots */}
-      <div className="story-top-banner" onClick={handleLeaveClick}>
-        <span className="banner-swords">⚔</span>
-        <span className="banner-text">LEAVE CHRONICLES</span>
-        <span className="banner-swords">⚔</span>
-      </div>
+      {/* Top Universal Banner (Leave Chronicles) - Visible only on the Shelf view to prevent overlaps */}
+      {view === 'shelf' && (
+        <div className="story-top-banner" onClick={handleLeaveClick}>
+          <span className="banner-swords">⚔</span>
+          <span className="banner-text">LEAVE CHRONICLES</span>
+          <span className="banner-swords">⚔</span>
+        </div>
+      )}
 
-      <div className="story-container">
-        
-        {/* VIEW 1: THE SHELF */}
-        {view === 'shelf' && (
+      {/* VIEW 1: THE SHELF (Wrapped in story-container to preserve styling) */}
+      {view === 'shelf' && (
+        <div className="story-container">
           <div className="shelf-view-container animate-fade-in" onClick={() => setView('directory')}>
             <FireAshes />
             <h1 className="shelf-main-title">THE PARADIS ARCHIVES</h1>
@@ -109,203 +163,206 @@ const Story = ({ isOpen, onClose }) => {
               <div className="physical-shelf-base" />
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* VIEW 2: ARCHIVES DIRECTORY SCROLL OVERLAY */}
-        {view === 'directory' && (
-          <div className="directory-overlay-container animate-fade-in">
-            <div className="directory-backdrop" />
-            <FireAshes />
-            <div className="directory-scroll-box">
-              <p className="directory-eyebrow">MILITARY RECONNAISSANCE OFFICE</p>
-              <h2 className="directory-main-title">ARCHIVES DIRECTORY</h2>
+      {/* VIEW 2: ARCHIVES DIRECTORY SCROLL OVERLAY (Placed directly under story-sec for perfect fixed centering) */}
+      {view === 'directory' && (
+        <div className="directory-overlay-container animate-fade-in">
+          <div className="directory-backdrop" />
+          <FireAshes />
+          <div className="directory-scroll-box">
+            <p className="directory-eyebrow">MILITARY RECONNAISSANCE OFFICE</p>
+            <h2 className="directory-main-title">ARCHIVES DIRECTORY</h2>
 
-              <div className="directory-list">
-                {CHRONICLES.map((chronicle) => (
-                  <div
-                    key={chronicle.id}
-                    className="directory-item"
-                    style={{ '--accent-color': chronicle.color }}
-                    onClick={() => handleBookSelect(chronicle)}
-                  >
-                    <div className="directory-left-bar" />
-                    <span className="directory-num">{chronicle.num}</span>
-                    <div className="directory-info">
-                      <h4 className="directory-title">{chronicle.title}</h4>
-                      <p className="directory-subtitle">{chronicle.year}</p>
+            <div className="directory-list">
+              {CHRONICLES.map((chronicle) => (
+                <div
+                  key={chronicle.id}
+                  className="directory-item"
+                  style={{ '--accent-color': chronicle.color }}
+                  onClick={() => handleBookSelect(chronicle)}
+                >
+                  <div className="directory-left-bar" />
+                  <span className="directory-num">{chronicle.num}</span>
+                  <div className="directory-info">
+                    <h4 className="directory-title">{chronicle.title}</h4>
+                    <p className="directory-subtitle">{chronicle.year}</p>
+                  </div>
+                  <span className="directory-icon" data-icon-type={chronicle.iconType}>
+                    {chronicle.iconChar}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <button className="directory-dismiss-btn" onClick={() => setView('shelf')}>
+              DISMISS REGISTRY
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* VIEW 3: THE IMMERSIVE BOOK VIEW WITH 3D PAGE TURN ANIMATION (Placed directly under story-sec for perfect fixed centering) */}
+      {view === 'book' && activeBook && (
+        <div className="book-overlay-container animate-fade-in">
+          <div className="book-backdrop" />
+          <FireAshes />
+
+          {/* Quick Return to Directory List */}
+          <button className="book-close-directory-btn" onClick={() => setView('directory')}>
+            <span>←</span> RETURN TO REGISTRY
+          </button>
+
+          <div className="book-layout-wrapper">
+            
+            {/* Left Page Flip Arrow */}
+            {displayIndex > 0 ? (
+              <button className="page-flip-arrow page-flip-arrow--left" onClick={handlePrevSpread}>
+                ‹
+              </button>
+            ) : (
+              <div className="page-flip-arrow-placeholder" />
+            )}
+
+            {/* The 3D Page Flipping Book Spread */}
+            <div className="immersive-book-spread">
+              
+              {/* Center fold crease shadow */}
+              <div className="book-center-crease" />
+
+              {/* LAYER 1: Permanent Left Page */}
+              <div className="immersive-book-page page--left permanent-left">
+                <div className="page-content-flow">
+                  <p className="book-page-category-tag">
+                    {leftPageData?.leftSubtitle}
+                  </p>
+                  <h2 className="book-page-large-title">
+                    {leftPageData?.leftTitle}
+                  </h2>
+                  <div className="book-page-divider" />
+                  <div className="book-page-center-emblem">
+                    <div className="emblem-inner-circle">
+                      <span className="emblem-symbol">
+                        {leftPageData?.leftEmblem}
+                      </span>
                     </div>
-                    <span className="directory-icon" data-icon-type={chronicle.iconType}>
-                      {chronicle.iconChar}
+                  </div>
+                  <div className="book-page-bottom-accent">
+                    <div className="accent-red-bar" />
+                    <p className="accent-year-text">
+                      {leftPageData?.leftYear}
+                    </p>
+                  </div>
+                  <div className="book-page-footer">
+                    <span className="footer-volume-text">
+                      {leftPageData?.leftFooterText}
+                    </span>
+                    <span className="footer-page-num">
+                      {leftPageData?.leftPageNum}
                     </span>
                   </div>
-                ))}
+                </div>
               </div>
 
-              <button className="directory-dismiss-btn" onClick={() => setView('shelf')}>
-                DISMISS REGISTRY
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* VIEW 3: THE IMMERSIVE BOOK VIEW WITH 3D PAGE TURN ANIMATION */}
-        {view === 'book' && activeBook && (
-          <div className="book-overlay-container animate-fade-in">
-            <div className="book-backdrop" />
-            <FireAshes />
-            <div className="book-layout-wrapper">
-              
-              {/* Left Page Flip Arrow */}
-              {spreadIndex > 0 ? (
-                <button className="page-flip-arrow page-flip-arrow--left" onClick={handlePrevSpread}>
-                  ‹
-                </button>
-              ) : (
-                <div className="page-flip-arrow-placeholder" />
-              )}
-
-              {/* The 3D Page Flipping Book Spread */}
-              <div className="immersive-book-spread">
+              {/* LAYER 2: 3D Flippable Middle Sheet */}
+              <div className={`flippable-sheet ${animationClass} ${!animating ? 'flippable-sheet--hidden' : ''}`}>
                 
-                {/* Center fold crease shadow */}
-                <div className="book-center-crease" />
+                {/* Front Side */}
+                <div className="br-page-3d br-page-3d--front">
+                  <div className="page-content-flow">
+                    <p className="book-page-category-tag text-right">
+                      {flippableFrontData?.rightSubtitle}
+                    </p>
+                    <h3 className="book-page-gold-header">
+                      {flippableFrontData?.rightTitle}
+                    </h3>
+                    <p className="book-page-body-serif">
+                      {flippableFrontData?.rightText}
+                    </p>
+                    <div className="book-page-footer">
+                      <span className="footer-page-num">
+                        {flippableFrontData?.rightPageNum}
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-                {/* LAYER 1: Permanent Left Page (Page 1 Content) */}
-                <div className={`immersive-book-page page--left permanent-left ${spreadIndex === 1 ? 'page--hidden' : ''}`}>
+                {/* Back Side */}
+                <div className="br-page-3d br-page-3d--back">
                   <div className="page-content-flow">
                     <p className="book-page-category-tag">
-                      {activeBook.spreads[0].leftSubtitle}
+                      {flippableBackData?.leftSubtitle}
                     </p>
                     <h2 className="book-page-large-title">
-                      {activeBook.spreads[0].leftTitle}
+                      {flippableBackData?.leftTitle}
                     </h2>
                     <div className="book-page-divider" />
                     <div className="book-page-center-emblem">
                       <div className="emblem-inner-circle">
                         <span className="emblem-symbol">
-                          {activeBook.spreads[0].leftEmblem}
+                          {flippableBackData?.leftEmblem}
                         </span>
                       </div>
                     </div>
                     <div className="book-page-bottom-accent">
                       <div className="accent-red-bar" />
                       <p className="accent-year-text">
-                        {activeBook.spreads[0].leftYear}
+                        {flippableBackData?.leftYear}
                       </p>
                     </div>
                     <div className="book-page-footer">
                       <span className="footer-volume-text">
-                        {activeBook.spreads[0].leftFooterText}
+                        {flippableBackData?.leftFooterText}
                       </span>
                       <span className="footer-page-num">
-                        {activeBook.spreads[0].leftPageNum}
+                        {flippableBackData?.leftPageNum}
                       </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* LAYER 2: 3D Flippable Middle Sheet */}
-                {/* 
-                  - Unflipped (spreadIndex === 0): Sits on the right, showing Page 2 (Front)
-                  - Flipped (spreadIndex === 1): Rotates -180deg to the left, showing Page 3 (Back)
-                */}
-                <div className={`flippable-sheet ${spreadIndex === 1 ? 'flippable-sheet--flipped' : ''}`}>
-                  
-                  {/* Front Side: Page 2 Content */}
-                  <div className="br-page-3d br-page-3d--front">
-                    <div className="page-content-flow">
-                      <p className="book-page-category-tag text-right">
-                        {activeBook.spreads[0].rightSubtitle}
-                      </p>
-                      <h3 className="book-page-gold-header">
-                        {activeBook.spreads[0].rightTitle}
-                      </h3>
-                      <p className="book-page-body-serif">
-                        {activeBook.spreads[0].rightText}
-                      </p>
-                      <div className="book-page-footer">
-                        <span className="footer-page-num">
-                          {activeBook.spreads[0].rightPageNum}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Back Side: Page 3 Content */}
-                  <div className="br-page-3d br-page-3d--back">
-                    <div className="page-content-flow">
-                      <p className="book-page-category-tag">
-                        {activeBook.spreads[1].leftSubtitle}
-                      </p>
-                      <h2 className="book-page-large-title">
-                        {activeBook.spreads[1].leftTitle}
-                      </h2>
-                      <div className="book-page-divider" />
-                      <div className="book-page-center-emblem">
-                        <div className="emblem-inner-circle">
-                          <span className="emblem-symbol">
-                            {activeBook.spreads[1].leftEmblem}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="book-page-bottom-accent">
-                        <div className="accent-red-bar" />
-                        <p className="accent-year-text">
-                          {activeBook.spreads[1].leftYear}
-                        </p>
-                      </div>
-                      <div className="book-page-footer">
-                        <span className="footer-volume-text">
-                          {activeBook.spreads[1].leftFooterText}
-                        </span>
-                        <span className="footer-page-num">
-                          {activeBook.spreads[1].leftPageNum}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* LAYER 3: Permanent Right Page (Page 4 Content) */}
-                <div className={`immersive-book-page page--right permanent-right ${spreadIndex === 0 ? 'page--hidden' : ''}`}>
-                  <div className="page-content-flow">
-                    <p className="book-page-category-tag text-right">
-                      {activeBook.spreads[1].rightSubtitle}
-                    </p>
-                    <h3 className="book-page-gold-header">
-                      {activeBook.spreads[1].rightTitle}
-                    </h3>
-                    <p className="book-page-body-serif">
-                      {activeBook.spreads[1].rightText}
-                    </p>
-                    <div className="book-page-footer">
-                      <span className="footer-page-num">
-                        {activeBook.spreads[1].rightPageNum}
-                      </span>
-                      <button className="book-return-shelf-btn" onClick={() => setView('directory')}>
-                        RETURN TO SHELF
-                      </button>
                     </div>
                   </div>
                 </div>
 
               </div>
 
-              {/* Right Page Flip Arrow */}
-              {spreadIndex < 1 ? (
-                <button className="page-flip-arrow page-flip-arrow--right" onClick={handleNextSpread}>
-                  ›
-                </button>
-              ) : (
-                <div className="page-flip-arrow-placeholder" />
-              )}
+              {/* LAYER 3: Permanent Right Page */}
+              <div className="immersive-book-page page--right permanent-right">
+                <div className="page-content-flow">
+                  <p className="book-page-category-tag text-right">
+                    {rightPageData?.rightSubtitle}
+                  </p>
+                  <h3 className="book-page-gold-header">
+                    {rightPageData?.rightTitle}
+                  </h3>
+                  <p className="book-page-body-serif">
+                    {rightPageData?.rightText}
+                  </p>
+                  <div className="book-page-footer">
+                    <span className="footer-page-num">
+                      {rightPageData?.rightPageNum}
+                    </span>
+                    {displayIndex === activeBook.spreads.length - 1 && (
+                      <button className="book-return-shelf-btn" onClick={() => setView('directory')}>
+                        RETURN TO REGISTRY
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
 
             </div>
-          </div>
-        )}
 
-      </div>
+            {/* Right Page Flip Arrow */}
+            {displayIndex < activeBook.spreads.length - 1 ? (
+              <button className="page-flip-arrow page-flip-arrow--right" onClick={handleNextSpread}>
+                ›
+              </button>
+            ) : (
+              <div className="page-flip-arrow-placeholder" />
+            )}
+
+          </div>
+        </div>
+      )}
     </section>
   )
 }

@@ -29,7 +29,7 @@ const ANTHEM_MELODY = [
   493.9  // B4
 ]
 
-export default function MilitaryRadio() {
+export default function MilitaryRadio({ isShifted }) {
   const [activeTrack, setActiveTab] = useState('off')
   const [volume, setVolume] = useState(0.4) // Default volume 40%
   const [isExpanded, setIsExpanded] = useState(false)
@@ -352,7 +352,7 @@ export default function MilitaryRadio() {
   const selectedTrackName = TRACKS.find(t => t.id === activeTrack)?.name || 'MUTE'
 
   return (
-    <div className={`mr-widget ${isExpanded ? 'mr-widget--expanded' : ''}`}>
+    <div className={`mr-widget ${isExpanded ? 'mr-widget--expanded' : ''} ${isShifted ? 'mr-widget--shifted' : ''}`}>
       
       {/* Closed Knob Trigger Box */}
       <div className="mr-closed-header" onClick={() => setIsExpanded(!isExpanded)}>

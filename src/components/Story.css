@@ -657,6 +657,36 @@
   transform: rotateY(-180deg);
 }
 
+/* Animations for bidirectional turns */
+.flippable-sheet.flip-next {
+  animation: flip-forward 0.85s cubic-bezier(0.645, 0.045, 0.355, 1) forwards !important;
+  transition: none !important;
+}
+
+.flippable-sheet.flip-prev {
+  animation: flip-backward 0.85s cubic-bezier(0.645, 0.045, 0.355, 1) forwards !important;
+  transition: none !important;
+}
+
+/* Custom 3D Page turn keyframes */
+@keyframes flip-forward {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(-180deg);
+  }
+}
+
+@keyframes flip-backward {
+  0% {
+    transform: rotateY(-180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
 /* Double Sided Card (Page 2 Front & Page 3 Back) */
 .br-page-3d {
   position: absolute;
@@ -912,6 +942,42 @@
   box-shadow: 0 0 10px rgba(158, 42, 43, 0.3);
 }
 
+/* Quick absolute position return button for book overlays */
+.book-close-directory-btn {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  background: rgba(196, 164, 80, 0.05);
+  border: 1px solid rgba(196, 164, 80, 0.3);
+  color: #c4a450;
+  padding: 8px 16px;
+  font-family: 'Cinzel', serif, system-ui;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.book-close-directory-btn:hover {
+  background: #c4a450;
+  color: #0c0c0e;
+  border-color: #c4a450;
+  box-shadow: 0 0 12px rgba(196, 164, 80, 0.3);
+}
+
+/* Hides the 3D sheet when not actively flipping to prevent layout overlaps */
+.flippable-sheet--hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 
 /* --- CSS UTILITIES & ANIMATIONS --- */
 .animate-fade-in {
@@ -926,6 +992,7 @@
 
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 900px) {
+  .book-close-directory-btn { top: 15px; left: 15px; padding: 6px 12px; font-size: 10px; }
   .shelf-main-title { font-size: 32px; }
   .physical-bookshelf-row { height: 160px; gap: 8px; }
   .shelf-book-spine--chronicle { width: 34px; height: 140px; padding: 8px 0; }
@@ -946,6 +1013,7 @@
 }
 
 @media (max-width: 650px) {
+  .book-close-directory-btn { position: relative; top: 0; left: 0; margin: 10px 0 20px 0; align-self: flex-start; }
   .shelf-main-title { font-size: 24px; }
   .shelf-main-subtitle { font-size: 9px; }
   .physical-bookshelf-row { height: 120px; gap: 4px; padding-bottom: 1px; }

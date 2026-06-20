@@ -21,7 +21,7 @@ export const CHRONICLES = [
         rightSubtitle: 'CHRONICLE 01',
         rightTitle: 'THE GRIM REMINDER',
         rightPageNum: 'Page 2',
-        rightText: 'For over one hundred years, humanity lived in safety behind three concentric walls of stone: Maria, Rose, and Sheena. Within this cage, generations grew up without ever seeing a Titan, believing the fifty-meter structures were eternal shields. But this peace was a fragile illusion. In Year 845, a skinless, steaming Colossal Titan kicked a hole in Shiganshina\'s gate, while the Armored Titan shattered the inner gate of Wall Maria, driving humanity into a bloody retreat.'
+        rightText: 'For over one hundred years, humanity lived in safety behind three concentric walls of stone: Maria, Rose, and Sheena. Within this cage, generations grew up without ever seeing a Titan, believing the fifty-meter structures were eternal shields. But this peace was a fragile illusion. In Year 845, a skinless, steaming Colossal Titan kicked a hole in Shiganshina\'s gate, driving humanity into a bloody retreat.'
       },
       {
         leftSubtitle: 'THE ANVIL',
@@ -35,6 +35,45 @@ export const CHRONICLES = [
         rightTitle: 'THE RETREAT',
         rightPageNum: 'Page 4',
         rightText: 'Among the weeping refugees was young Eren Yeager, who watched in helpless horror as his mother was eaten alive by a smiling titan. Evacuated on a crowded riverboat alongside his adoptive sister Mikasa Ackerman and friend Armin Arlert, Eren stared back at the burning Shiganshina harbor. In that moment of absolute despair and hatred, he swore an oath to destroy every titan in existence.'
+      },
+      {
+        leftSubtitle: 'THE GATEWAY',
+        leftTitle: 'THE INNER WALL SHATTERED',
+        leftEmblem: '⚓',
+        leftYear: 'Year 845 · Wall Maria Inner Gate',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 01',
+        rightTitle: 'THE ARMORED CHARGE',
+        rightPageNum: 'Page 6',
+        rightText: 'Even as the survivors scrambled to safety behind Wall Rose, a secondary disaster struck. A heavily armored Titan, covered in dense hardened plating, charged through the inner gates of Shiganshina at terrifying speeds. This crushed the military fallback defenses, leaving Wall Maria permanently breached and forcing humanity to abandon twenty percent of its territory and resources.'
+      },
+      {
+        leftSubtitle: 'THE FAMINE',
+        leftTitle: 'THE REFUGEE CULLING',
+        leftEmblem: '🌾',
+        leftYear: 'Year 846 · Wall Rose Territory',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 01',
+        rightTitle: 'THE CIVILIAN OFFENSIVE',
+        rightPageNum: 'Page 8',
+        rightText: 'Faced with a massive food shortage, the Royal Government ordered a desperate counter-offensive to retake Wall Maria. Of the 250,000 refugees sent to the frontlines—mostly unequipped civilians—fewer than a hundred returned. While a tragedy, this cull alleviated the famine, leaving Eren, Mikasa, and Armin to rely purely on their military aspirations.'
+      },
+      {
+        leftSubtitle: 'THE ENLISTMENT',
+        leftTitle: 'DEDICATING THE HEARTS',
+        leftEmblem: '🩸',
+        leftYear: 'Year 847 · Recruitment Barracks',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 01',
+        rightTitle: 'THE MILITARY VOLUNTEERS',
+        rightPageNum: 'Page 10',
+        rightText: 'Three years after the fall, the surviving children of Shiganshina reached enlistment age. Standing before the harsh recruits barracks, they prepared to offer their hearts. Eren Yeager, fueled by absolute hatred and determination, stared out over the training fields, ready to forge himself into the ultimate weapon to reclaim humanity\'s freedom.'
       }
     ]
   },
@@ -50,7 +89,7 @@ export const CHRONICLES = [
     iconChar: '⚔',
     spreads: [
       {
-        leftSubtitle: 'THE MILITARY',
+        leftSubtitle: 'THE CADETS',
         leftTitle: '104TH TRAINING CORPS',
         leftEmblem: '⚔️',
         leftYear: 'Years 847-850 · The Crucible',
@@ -74,6 +113,45 @@ export const CHRONICLES = [
         rightTitle: 'THE SOLEMN OATH',
         rightPageNum: 'Page 4',
         rightText: 'The 104th Training Corps graduated a class of elite fighters, led by the prodigy Mikasa Ackerman. Despite Jean Kirstein\'s desire for the safe Interior, and Reiner Braun\'s focus on duty, several graduates resolved to join the suicidal Survey Corps. They stood tall, slamming their right fists over their hearts, swearing to dedicate their lives to mankind\'s freedom.'
+      },
+      {
+        leftSubtitle: 'THE TECHNIQUE',
+        leftTitle: 'HAND-TO-HAND COMBAT',
+        leftEmblem: '🤛',
+        leftYear: 'Year 848 · Southern Camp',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 02',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 02',
+        rightTitle: 'CLASH OF PHILOSOPHIES',
+        rightPageNum: 'Page 6',
+        rightText: 'While ODM training focused on flying, the recruits were also pushed to excel in close quarters. Annie Leonhart introduced Eren to a unique, fluid martial art that bypassed physical size and weight, allowing smaller fighters to sweep heavier soldiers. This training taught Eren that absolute strength relies on mental precision and balance.'
+      },
+      {
+        leftSubtitle: 'THE THEORY',
+        leftTitle: 'TACTICAL INSTRUCTIONS',
+        leftEmblem: '📖',
+        leftYear: 'Year 849 · Military Academy',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 02',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 02',
+        rightTitle: 'THE FOCUS ON THE NAPE',
+        rightPageNum: 'Page 8',
+        rightText: 'In classroom instruction, cadets studied Titan physiology. Mindless giants possessed infinite cellular regeneration, making any standard limb wound useless. The cadets learned that only a horizontal slash of exactly one meter wide and ten centimeters deep across the nape of the neck would instantly sever the nervous tissue and dissolve the monster.'
+      },
+      {
+        leftSubtitle: 'THE GRADUATION',
+        leftTitle: 'THE ELITE TEN',
+        leftEmblem: '👑',
+        leftYear: 'Year 850 · District Parade',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 02',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 02',
+        rightTitle: 'MEMBER SELECTION',
+        rightPageNum: 'Page 10',
+        rightText: 'Graduation day highlighted the class prodigies: Mikasa Ackerman, Reiner Braun, Bertholdt Hoover, Annie Leonhart, and others. The top ten graduates were granted the prestigious right to join the Military Police in the safe interior. Yet, Eren Yeager\'s fiery speech convinced several top recruits to abandon safety and offer their hearts to the Scouts.'
       }
     ]
   },
@@ -103,7 +181,7 @@ export const CHRONICLES = [
       },
       {
         leftSubtitle: 'THE BOULDER',
-        leftTitle: 'THE SEALLING MISSION',
+        leftTitle: 'THE SEALING MISSION',
         leftEmblem: '🧱',
         leftYear: 'Year 850 · Trost Gate',
         leftFooterText: 'SCOUT CHRONICLES · VOL 03',
@@ -113,6 +191,45 @@ export const CHRONICLES = [
         rightTitle: 'THE FIRST TRIUMPH',
         rightPageNum: 'Page 4',
         rightText: 'Commander Pixis staked humanity\'s survival on Eren\'s titan form. Protected by his comrades\' lives, Eren carried a massive boulder across Trost, sealing the breached gate. Though hundreds of soldiers perished, humanity won its first-ever victory against the giants. The age of passive containment had ended; the age of counter-attack had begun.'
+      },
+      {
+        leftSubtitle: 'THE COMMAND',
+        leftTitle: 'TROST DEFENSE PLANS',
+        leftEmblem: '📯',
+        leftYear: 'Year 850 · Garrison Division',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 03',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 03',
+        rightTitle: 'THE DESPERATE OFFENSIVE',
+        rightPageNum: 'Page 6',
+        rightText: 'When the gate shattered, panic erupted. Garrison soldiers were ordered to defend the Trost supply depot, but as the gas supplies dwindled, soldiers became stranded and devoured. Mikasa and Armin rallied the survivors, launching a desperate, high-speed offensive using Eren\'s rogue Titan form to clear the path and reclaim the gas supplies.'
+      },
+      {
+        leftSubtitle: 'THE RESCUE',
+        leftTitle: 'ELIMINATING INDECISION',
+        leftEmblem: '⚔',
+        leftYear: 'Year 850 · Supply Depot',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 03',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 03',
+        rightTitle: 'CLEANSING THE INFESTATION',
+        rightPageNum: 'Page 8',
+        rightText: 'Inside the supply depot, several small Titans had trapped the military supply crews. Using elevator lifts and calculated gunfire to blind the giants, Armin coordinated a high-speed ambush. Seven elite recruits dropped from the rafters, severing the Titans\' napes simultaneously, rescuing the gas crews and securing the fallback operation.'
+      },
+      {
+        leftSubtitle: 'THE SECTOR',
+        leftTitle: 'SECURED AND LOCKED',
+        leftEmblem: '🛟',
+        leftYear: 'Year 850 · Secured Trost',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 03',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 03',
+        rightTitle: 'THE AGE OF COUNTERATTACK',
+        rightPageNum: 'Page 10',
+        rightText: 'With Trost successfully sealed, the military launched its first-ever Titan research program, locking captured specimens "Sawney" and "Bean" for scientific examination. The success proved to mankind that Titans are not immortal gods, but giant flesh-and-blood monsters that can be studied, outsmarted, and permanently defeated.'
       }
     ]
   },
@@ -152,6 +269,45 @@ export const CHRONICLES = [
         rightTitle: 'THE ICE CRYSTAL',
         rightPageNum: 'Page 4',
         rightText: 'Armin deduced the Female Titan\'s true identity: Annie Leonhart. A desperate trap was sprung in Stohess District. Eren and Annie engaged in a destructive titan duel that shattered the city walls. Though Annie was finally defeated, she encased her body in an impenetrable, crystalline cocoon, locking her secrets away forever.'
+      },
+      {
+        leftSubtitle: 'THE SQUAD',
+        leftTitle: 'LEVI SPECIAL SQUAD',
+        leftEmblem: '🩸',
+        leftYear: 'Year 850 · Scout Headquarters',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 04',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 04',
+        rightTitle: 'THE SOLEMN ASSIGNMENT',
+        rightPageNum: 'Page 6',
+        rightText: 'Placed under the direct supervision of Captain Levi, Eren moved to an abandoned castle. There, he bonded with Petra, Oluo, Eld, and Gunther—elite veterans who possessed dozens of Titan kills. Despite their military experience, they accepted Eren as a comrade, making him understand that the Survey Corps relies on absolute mutual trust.'
+      },
+      {
+        leftSubtitle: 'THE REVEAL',
+        leftTitle: 'THE SCOUT EXPEDITION',
+        leftEmblem: '🗺️',
+        leftYear: 'Year 850 · Outside Wall Rose',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 04',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 04',
+        rightTitle: 'THE SECTOR CHARGE',
+        rightPageNum: 'Page 8',
+        rightText: 'The 57th Expedition outside the walls tested Erwin\'s long-range scouting formation. Red and green signal flares were fired across the horizon to navigate around Titan clusters. However, this intelligent tactical formation was completely disrupted when the Female Titan charged from the flank, wiping out the Scouts\' communication units.'
+      },
+      {
+        leftSubtitle: 'THE SECRETS',
+        leftTitle: 'THE WALLS SECRETS',
+        leftEmblem: '👁️',
+        leftYear: 'Year 850 · Stohess Wall Breach',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 04',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 04',
+        rightTitle: 'THE GIANTS WITHIN',
+        rightPageNum: 'Page 10',
+        rightText: 'During Eren and Annie\'s final struggle in Stohess, a piece of the fifty-meter stone wall crumbled. To the horror of the civilian onlookers and the military leadership, a living, breathing Colossal-type Titan\'s face was revealed inside the wall, indicating that the walls themselves are built entirely out of hardened giant Titans.'
       }
     ]
   },
@@ -191,6 +347,45 @@ export const CHRONICLES = [
         rightTitle: 'THE COORDINATE',
         rightPageNum: 'Page 4',
         rightText: 'The Survey Corps pursued them. Cornered by the titan that ate his mother, Eren punched its palm in desperation. A shockwave rippled out. Eren had unlocked the Coordinate—the power to command all other Titans. With a single scream, he commanded the surrounding mindless giants to tear his mother\'s killer and the enemy warriors apart.'
+      },
+      {
+        leftSubtitle: 'THE CASTLE',
+        leftTitle: 'SIEGE OF CASTLE UTGARD',
+        leftEmblem: '🏰',
+        leftYear: 'Year 850 · Wall Rose Interior',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 05',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 05',
+        rightTitle: 'THE MIDNIGHT SIEGE',
+        rightPageNum: 'Page 6',
+        rightText: 'Trapped inside the ancient ruins of Castle Utgard at midnight, the unequipped cadets were besieged by a horde of Titans active under the moonlight. As their veteran guard officers perished one by one, Ymir made the desperate decision to reveal her secret, transforming into the Jaw Titan to defend her comrades.'
+      },
+      {
+        leftSubtitle: 'THE FLIGHT',
+        leftTitle: 'THE FOREST RECOVERY',
+        leftEmblem: '🌲',
+        leftYear: 'Year 850 · Giant Tree Forest',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 05',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 05',
+        rightTitle: 'THE WAITING HOURS',
+        rightPageNum: 'Page 8',
+        rightText: 'Kidnapped and exhausted, Eren woke up with severed limbs in the Giant Tree Forest, surrounded by Reiner, Bertholdt, and Ymir. While waiting for their bodies to recover, Eren and Reiner clashed in a furious verbal duel. Eren realized his former friends were not simple monsters, but tortured soldiers burdened by an unknown global mission.'
+      },
+      {
+        leftSubtitle: 'THE CLASH',
+        leftTitle: 'THE APOCALYPSE ENCOUNTER',
+        leftEmblem: '⚔',
+        leftYear: 'Year 850 · Wall Rose Fields',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 05',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 05',
+        rightTitle: 'THE SHOCKWAVE INITIATIVE',
+        rightPageNum: 'Page 10',
+        rightText: 'During the high-stakes rescue campaign, Commander Erwin lost his right arm to a Titan, yet maintained his charge, screaming for the Scouts to advance. When the Coordinate power triggered, the battlefield dissolved into pure chaos, forcing Reiner and Bertholdt to retreat empty-handed, leaving Eren in the custody of the Scouts.'
       }
     ]
   },
@@ -230,6 +425,45 @@ export const CHRONICLES = [
         rightTitle: 'THE RISING CROWN',
         rightPageNum: 'Page 4',
         rightText: 'Historia broke the syringe, rejecting her father\'s memory-wiping curse. Rod transformed into a crawling 120-meter monster, but Eren swallowed a bottle marked "Armor," unlocking the hardening ability to save his squad. The Corps slew Rod Reiss at Orvud District, where Historia delivered the blow and was crowned Queen.'
+      },
+      {
+        leftSubtitle: 'THE CONSPIRACY',
+        leftTitle: 'THE INTERIOR FORCE',
+        leftEmblem: '🎭',
+        leftYear: 'Year 850 · Capital City',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 06',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 06',
+        rightTitle: 'THE FORBIDDEN SQUAD',
+        rightPageNum: 'Page 6',
+        rightText: 'The Military Police\'s First Interior Squad, led by Captain Kenny Ackerman, deployed advanced Anti-Personnel ODM gear to hunt down Captain Levi\'s squad. This triggered a bloody urban war inside the Stohess District, forcing the Scouts to hunt fellow humans to protect Eren and Historia from the Royal conspiracy.'
+      },
+      {
+        leftSubtitle: 'THE PAST',
+        leftTitle: 'THE ACKERMAN BLOOD',
+        leftEmblem: '🩸',
+        leftYear: 'Year 850 · Crystal Cave',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 06',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 06',
+        rightTitle: 'THE VETERAN\'S END',
+        rightPageNum: 'Page 8',
+        rightText: 'As the Reiss chapel collapsed under Rod\'s transformation, Kenny Ackerman was mortally wounded by falling debris. Captain Levi confronted his dying uncle, who revealed that he had raised Levi in the underground slums. Before dying, Kenny passed Levi a stolen Titan injection syringe, providing the Scouts with a final piece of tactical hope.'
+      },
+      {
+        leftSubtitle: 'THE CROWN',
+        leftTitle: 'THE TRUE REISS HEIR',
+        leftEmblem: '🏰',
+        leftYear: 'Year 850 · Capital Parade',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 06',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 06',
+        rightTitle: 'DAWN OF THE REGINA',
+        rightPageNum: 'Page 10',
+        rightText: 'With the corrupt nobles stripped of power, Historia Reiss officially took the throne. Standing before the cheering crowds of Mitras, she claimed her crown and pledged her life to the protection of the poor. Behind the scenes, the military and the Survey Corps prepared their resources to initiate the grand campaign to retake Wall Maria.'
       }
     ]
   },
@@ -269,6 +503,45 @@ export const CHRONICLES = [
         rightTitle: 'THE NEW COLOSSAL',
         rightPageNum: 'Page 4',
         rightText: 'Armin sacrificed himself as a distraction, suffering third-degree burns as Eren captured Bertholdt. With Erwin and Armin dying, Levi made the agonizing choice to inject Armin, passing him the Colossal Titan. Wall Maria was reclaimed, but at the cost of nearly all Survey Corps lives. Only nine soldiers survived to reach the basement.'
+      },
+      {
+        leftSubtitle: 'THE WALL',
+        leftTitle: 'SEALING THE OUTER GATE',
+        leftEmblem: '🧱',
+        leftYear: 'Year 850 · Outer Shiganshina',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 07',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 07',
+        rightTitle: 'THE HARDENED PLUG',
+        rightPageNum: 'Page 6',
+        rightText: 'At the start of the raid, Eren successfully scaled the wall and transformed, using his newly mastered hardening ability to seal the outer gate of Shiganshina. The smooth, solid crystal block successfully plugged the breach. However, their triumph was short-lived as Reiner launched a surprise ambush from inside the stone wall.'
+      },
+      {
+        leftSubtitle: 'THE THREAT',
+        leftTitle: 'THE BEAST COMMANDER',
+        leftEmblem: '🪨',
+        leftYear: 'Year 850 · Wall Maria Fields',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 07',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 07',
+        rightTitle: 'THE CRUSHING BARREL',
+        rightPageNum: 'Page 8',
+        rightText: 'Standing in the fields outside, the Beast Titan threw massive, crushed boulders like cannon fire, decimating the Scouts fallback lines and horses. With all retreats blocked, Erwin Reiss formulated a desperate final charge. This heroic self-sacrifice allowed Levi to slip around the flank undetected and take down the Beast.'
+      },
+      {
+        leftSubtitle: 'THE ROOM',
+        leftTitle: 'REACHING THE BASEMENT',
+        leftEmblem: '🗝️',
+        leftYear: 'Year 850 · Shiganshina Ruins',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 07',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 07',
+        rightTitle: 'THE KEYHOLE MATCH',
+        rightPageNum: 'Page 10',
+        rightText: 'With the battle concluded, Eren, Mikasa, Armin, and Hange walked through the ruins of their former home. Standing before the cellar door, Eren inserted his father\'s key. It did not match the lock! Hange realized the key was intended for a secret drawer inside. They broke the door down, entering the dark, dust-covered study.'
       }
     ]
   },
@@ -308,6 +581,45 @@ export const CHRONICLES = [
         rightTitle: 'THE END OF ISLAND',
         rightPageNum: 'Page 4',
         rightText: 'A year later, the military cleared all titans from Paradis. The survivors rode to the edge of the island, reaching the ocean. Armin and Mikasa played in the waves, but Eren stared across the infinite horizon. Pointing his finger toward the unseen shores of their enemies, he asked, "If we kill them all... will we finally be free?"'
+      },
+      {
+        leftSubtitle: 'THE REBELS',
+        leftTitle: 'THE MARLEY ELDIANS',
+        leftEmblem: '🛡',
+        leftYear: 'Year 830 · Liberio Ghetto',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 08',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 08',
+        rightTitle: 'THE RESISTANCE MOVEMENT',
+        rightPageNum: 'Page 6',
+        rightText: 'Grisha\'s journals detailed his youth in Marley. Eldians lived in walled ghettos, forced to wear armbands and subjected to cruel persecution. Joining the Eldian Restorationists, Grisha met Dina Fritz—the last descendant of the royal lineage. Together, they plotted a rebellion to retake the Founding Titan from Paradis.'
+      },
+      {
+        leftSubtitle: 'THE TRAITOR',
+        leftTitle: 'THE PARADIS EXILE',
+        leftEmblem: '👣',
+        leftYear: 'Year 832 · Border Wall',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 08',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 08',
+        rightTitle: 'TRANSFORMATION EXPULSION',
+        rightPageNum: 'Page 8',
+        rightText: 'The Restorationists were betrayed by Grisha\'s own son, Zeke. Sentenced to permanent exile on Paradis Shore, the rebels were injected with Titan spinal fluid, transforming into mindless giants. Only Grisha was saved by Eren Kruger—the spy known as the "Owl"—who passed him the power of the Attack Titan.'
+      },
+      {
+        leftSubtitle: 'THE SHORE',
+        leftTitle: 'THE SEA OF LIBERATION',
+        leftEmblem: '🕊️',
+        leftYear: 'Year 851 · Sandy Shores',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 08',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 08',
+        rightTitle: 'THE SALTY WAVES',
+        rightPageNum: 'Page 10',
+        rightText: 'Reaching the sea marked the absolute completion of their initial goal. The water was salty, vast, and teeming with life. While Armin stared in awe at the sea-shells, Eren realized the ocean was only a border separating them from a world of enemies, setting his dark resolve to cross the waters and secure their peace.'
       }
     ]
   },
@@ -347,6 +659,45 @@ export const CHRONICLES = [
         rightTitle: 'THE HAMMER DEVOURING',
         rightPageNum: 'Page 4',
         rightText: 'Eren transformed, devouring Tybur and slaughtering the Marleyan High Command. The Survey Corps descended with modern firearms. Armin\'s Colossal transformation obliterated the naval harbor. Eren successfully devoured the Warhammer Titan, but their retreat cost Sasha Blouse\'s life, launching a cycle of global hatred.'
+      },
+      {
+        leftSubtitle: 'THE WARRIORS',
+        leftTitle: 'THE WARRIORS CANDIDATES',
+        leftEmblem: '💂',
+        leftYear: 'Year 854 · Marley Barracks',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 09',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 09',
+        rightTitle: 'THE NEW GENERATION',
+        rightPageNum: 'Page 6',
+        rightText: 'In Liberio, young candidates Falco Grice and Gabi Braun trained fiercely to inherit the Armored Titan. Gabi, possessed by a fierce patriotism and hatred of Paradis "demons," excelled in combat, while Falco sought to protect her from the curse of the thirteen-year shifter lifespan.'
+      },
+      {
+        leftSubtitle: 'THE REUNION',
+        leftTitle: 'THE BASEMENT CONFRONTATION',
+        leftEmblem: '🗝',
+        leftYear: 'Year 854 · Under Willy\'s Stage',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 09',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 09',
+        rightTitle: 'THE CONFESSION IN THE DARK',
+        rightPageNum: 'Page 8',
+        rightText: 'Falco brought Reiner to a dark cellar, where Eren Yeager sat waiting. As Willy Tybur\'s speech played above, Eren forced Reiner to sit, explaining: "I am the same as you. We are born across the sea, but we are both just people." Reiner wept, begging Eren to forgive his sins of breaking Wall Maria.'
+      },
+      {
+        leftSubtitle: 'THE ESCAPE',
+        leftTitle: 'THE AIRSHIP EXTRADITION',
+        leftEmblem: '🎈',
+        leftYear: 'Year 854 · Liberio Sky',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 09',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 09',
+        rightTitle: 'THE SHOT IN THE CABIN',
+        rightPageNum: 'Page 10',
+        rightText: 'The Scouts escaped via a stolen military airship. Celebrating their victory, they were ambushed by Gabi, who scaled the grappling lines and entered the cabin, firing a single rifle shot that mortally wounded Sasha Blouse. Eren laughed in sorrow, and the Scouts realized their war had only escalated.'
       }
     ]
   },
@@ -386,6 +737,45 @@ export const CHRONICLES = [
         rightTitle: 'A LONG DREAM',
         rightPageNum: 'Page 4',
         rightText: 'An alliance of Paradis soldiers and Marleyan warriors pursued Eren. They engaged in a historic struggle on the founding titan\'s massive skeletal back. Armin convinced Zeke to sacrifice himself, halting the Rumbling, while Mikasa Ackerman entered the mouth of the titan. Severing Eren\'s head with a final strike, she dissolved the titan curse forever, returning humanity to its natural state.'
+      },
+      {
+        leftSubtitle: 'THE COUP',
+        leftTitle: 'THE JAEGERIST TAKEOVER',
+        leftEmblem: '🧱',
+        leftYear: 'Year 854 · Paradis HQ',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 10',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'CHRONICLE 10',
+        rightTitle: 'THE FACTION DIVISION',
+        rightPageNum: 'Page 6',
+        rightText: 'Eren\'s radical actions divided the military. A revolutionary group calling themselves the Jaegerists launched a coup, assassinating Premier Zachary and taking control of the island. They claimed only Eren Yeager and the Rumbling could protect Paradis from global annihilation, trapping the remaining veteran Scout commanders.'
+      },
+      {
+        leftSubtitle: 'THE CLIMAX',
+        leftTitle: 'FORT SALTA ENGAGEMENT',
+        leftEmblem: '⚡',
+        leftYear: 'Year 854 · Fort Salta',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 10',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'CHRONICLE 10',
+        rightTitle: 'THE LAST ALLIANCE',
+        rightPageNum: 'Page 8',
+        rightText: 'The surviving Marleyan candidates and the Survey Corps combined forces, flying to Fort Salta on a final airship. They jumped onto the massive, skeletal back of Eren\'s Founding Titan, facing ancient constructs of past Titan Shifters. Levi, Armin, Mikasa, Reiner, and Jean fought desperately in an epic, world-ending confrontation.'
+      },
+      {
+        leftSubtitle: 'THE DAWN',
+        leftTitle: 'THE NEW WORLD ERA',
+        leftEmblem: '🕊',
+        leftYear: 'Year 857 · Shiganshina Shore',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 10',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'CHRONICLE 10',
+        rightTitle: 'THE WINGED FREEDOM',
+        rightPageNum: 'Page 10',
+        rightText: 'Three years after Eren\'s death, Armin and the alliance sailed to Paradis as peace ambassadors. The Titan powers were gone, and the Eldians were normal humans. Mikasa buried Eren beneath his favorite tree on Shiganshina hill. As she wept, a bird flew down, gently wrapping her scarf around her neck before soaring away into the vast sky.'
       }
     ]
   }

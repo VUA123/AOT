@@ -1,0 +1,304 @@
+.gh-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: radial-gradient(circle at center, #0e0e13, #040406);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Cinzel', serif;
+}
+
+.gh-ambient-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(196, 164, 80, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 164, 80, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* Header Bar */
+.gh-header {
+  height: 64px;
+  background: rgba(6, 6, 10, 0.95);
+  border-bottom: 1px solid rgba(196, 164, 80, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.gh-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.gh-logo-wings {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.25rem;
+  color: #9b1a1a;
+  text-shadow: 0 0 10px rgba(155, 26, 26, 0.5);
+}
+
+.gh-logo-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #c4a450;
+}
+
+.gh-header-game {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #f0ece4;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.gh-header-close {
+  background: none;
+  border: 1px solid rgba(155, 26, 26, 0.5);
+  color: #d4cfc4;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gh-header-close:hover {
+  background: #9b1a1a;
+  border-color: #c0312a;
+  color: #f0ece4;
+  box-shadow: 0 0 15px rgba(155, 26, 26, 0.3);
+}
+
+/* Selection Screen */
+.gh-selection-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1;
+  overflow-y: auto;
+}
+
+.gh-wings-banner {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 3.5rem;
+  color: #9b1a1a;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 15px rgba(155, 26, 26, 0.4);
+}
+
+.gh-selection-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #f0ece4;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-align: center;
+}
+
+.gh-selection-subtitle {
+  font-size: 0.72rem;
+  color: #c4a450;
+  letter-spacing: 0.28em;
+  margin: 0.5rem 0 3.5rem 0;
+  text-align: center;
+}
+
+/* Difficulty Cards Grid */
+.gh-diff-cards {
+  display: flex;
+  gap: 2.2rem;
+  width: 100%;
+  max-width: 1000px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.gh-diff-card {
+  flex: 1;
+  min-width: 280px;
+  max-width: 310px;
+  background: rgba(14, 14, 19, 0.85);
+  border: 1px solid rgba(196, 164, 80, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gh-diff-card::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+
+.gh-diff-card:hover {
+  transform: translateY(-8px);
+  border-color: #c4a450;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(196, 164, 80, 0.05);
+}
+
+.gh-diff-card--easy:hover {
+  border-color: #4ade80;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(74, 222, 128, 0.05);
+}
+.gh-diff-card--medium:hover {
+  border-color: #c4a450;
+  box-shadow: 0 0 15px rgba(196, 164, 80, 0.15);
+}
+.gh-diff-card--hard:hover {
+  border-color: #9b1a1a;
+  box-shadow: 0 0 25px rgba(155, 26, 26, 0.3);
+}
+
+.gh-diff-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(196, 164, 80, 0.2);
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--bone);
+}
+
+.gh-diff-card--easy .gh-diff-badge { border-color: rgba(74, 222, 128, 0.3); color: #4ade80; }
+.gh-diff-card--medium .gh-diff-badge { border-color: rgba(196, 164, 80, 0.3); color: #c4a450; }
+.gh-diff-card--hard .gh-diff-badge { border-color: rgba(155, 26, 26, 0.3); color: #9b1a1a; }
+
+.gh-diff-mode-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #f0ece4;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.25rem;
+}
+
+.gh-diff-desc {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #a09a94;
+  margin: 0 0 2.2rem 0;
+  height: 70px;
+  overflow: hidden;
+}
+
+.gh-diff-select-btn {
+  background: transparent;
+  border: 1px solid rgba(196, 164, 80, 0.25);
+  color: #d4cfc4;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 0.8rem 0;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gh-diff-card--easy:hover .gh-diff-select-btn { background: #166534; border-color: #22c55e; color: #fff; }
+.gh-diff-card--medium:hover .gh-diff-select-btn { background: #854d0e; border-color: #eab308; color: #fff; }
+.gh-diff-card--hard:hover .gh-diff-select-btn { background: #9b1a1a; border-color: #ef4444; color: #fff; }
+
+/* Active Game Wrapper */
+.gh-active-game-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Game Over and Status overlay styles */
+.gh-game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 6, 10, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 2rem;
+}
+
+.gh-overlay-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #9b1a1a;
+  letter-spacing: 0.1em;
+  margin: 0;
+  text-shadow: 0 0 25px rgba(155, 26, 26, 0.5);
+}
+
+.gh-overlay-title--victory {
+  color: #4ade80;
+  text-shadow: 0 0 25px rgba(74, 222, 128, 0.5);
+}
+
+.gh-overlay-score {
+  font-size: 1.1rem;
+  color: #c4a450;
+  letter-spacing: 0.2em;
+  margin: 1rem 0 3rem 0;
+}
+
+.gh-overlay-buttons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.gh-overlay-btn {
+  background: transparent;
+  border: 1px solid rgba(196, 164, 80, 0.3);
+  color: #d4cfc4;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+  padding: 0.9rem 2.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gh-overlay-btn:hover {
+  background: #f0ece4;
+  color: #06060a;
+}
+
+.gh-overlay-btn--primary {
+  border-color: #9b1a1a;
+  color: #f0ece4;
+}
+
+.gh-overlay-btn--primary:hover {
+  background: #9b1a1a;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(155, 26, 26, 0.4);
+}

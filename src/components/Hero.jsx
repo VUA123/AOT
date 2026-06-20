@@ -10,6 +10,7 @@ const Hero = () => {
   const stickyRef  = useRef(null)   
   const videoRef   = useRef(null)
 
+  const ch1EyebrowRef = useRef(null)
   const ch1TitleRef = useRef(null)
   const ch1SubRef   = useRef(null)
   const ch2TitleRef = useRef(null)
@@ -23,85 +24,88 @@ const Hero = () => {
     const section = sectionRef.current
     if (!video || !section) return
 
-    video.pause()
-    video.currentTime = 0
+    video.play().catch(e => console.log("Video play failed:", e))
 
-    const setup = () => {
-      const duration = video.duration
-      const scrollLen = Math.min(
-        Math.max(duration * 150, window.innerHeight * 3),
-        window.innerHeight * 8
-      )
+    const ctx = gsap.context(() => {
+      const setup = () => {
+        const scrollLen = window.innerHeight * 2.2
 
-      section.style.height = `${scrollLen + window.innerHeight}px`
+        section.style.height = `${scrollLen + window.innerHeight}px`
 
-      ScrollTrigger.create({
-        trigger : section,
-        start   : 'top top',
-        end     : `+=${scrollLen}`,
-        scrub   : true,
-        onUpdate: (self) => {
-          const t = Math.min(self.progress * duration, duration - 0.01)
-          if (isFinite(t)) video.currentTime = t
-        },
-      })
+        // Ensure background video plays whenever the hero section is in view
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          onEnter: () => {
+            video.play().catch(e => console.log("Video play failed:", e))
+          },
+          onEnterBack: () => {
+            video.play().catch(e => console.log("Video play failed:", e))
+          },
+        })
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger : section,
-          start   : 'top top',
-          end     : `+=${scrollLen}`,
-          scrub   : true,
-        },
-        defaults: { ease: 'power3.out' },
-      })
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger : section,
+            start   : 'top top',
+            end     : `+=${scrollLen}`,
+            scrub   : true,
+          },
+          defaults: { ease: 'power3.out' },
+        })
 
-      tl.fromTo(ch1TitleRef.current,
-        { opacity: 0, y: 60, filter: 'blur(12px)' },
-        { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 0.12 },
-        0.03)
-      tl.fromTo(ch1SubRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0,  duration: 0.1 },
-        0.1)
-      tl.to([ch1TitleRef.current, ch1SubRef.current],
-        { opacity: 0, y: -40, filter: 'blur(8px)', duration: 0.08 },
-        0.24)
+        tl.fromTo(ch1TitleRef.current,
+          { opacity: 0, y: 60, filter: 'blur(12px)' },
+          { opacity: 1, y: 0,  filter: 'blur(0px)', duration: 0.12 },
+          0.03)
+        tl.fromTo(ch1SubRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0,  duration: 0.1 },
+          0.1)
+        tl.fromTo(ch1EyebrowRef.current,
+          { opacity: 1, y: 0, filter: 'blur(0px)' },
+          { opacity: 0, y: -30, filter: 'blur(6px)', duration: 0.08 },
+          0.24)
+        tl.to([ch1TitleRef.current, ch1SubRef.current],
+          { opacity: 0, y: -40, filter: 'blur(8px)', duration: 0.08 },
+          0.24)
 
-      tl.fromTo(ch2TitleRef.current,
-        { opacity: 0, letterSpacing: '0.5em', filter: 'blur(18px)' },
-        { opacity: 1, letterSpacing: '0.2em', filter: 'blur(0px)', duration: 0.14 },
-        0.30)
-      tl.fromTo(ch2SubRef.current,
-        { opacity: 0, x: -40 },
-        { opacity: 1, x: 0, duration: 0.1 },
-        0.40)
-      tl.to([ch2TitleRef.current, ch2SubRef.current],
-        { opacity: 0, y: -30, duration: 0.08 },
-        0.58)
+        tl.fromTo(ch2TitleRef.current,
+          { opacity: 0, letterSpacing: '0.5em', filter: 'blur(18px)' },
+          { opacity: 1, letterSpacing: '0.2em', filter: 'blur(0px)', duration: 0.14 },
+          0.30)
+        tl.fromTo(ch2SubRef.current,
+          { opacity: 0, x: -40 },
+          { opacity: 1, x: 0, duration: 0.1 },
+          0.40)
+        tl.to([ch2TitleRef.current, ch2SubRef.current],
+          { opacity: 0, y: -30, duration: 0.08 },
+          0.58)
 
-      tl.fromTo(overlayRef.current,
-        { opacity: 0.55 },
-        { opacity: 0.10, duration: 0.15 },
-        0.62)
+        tl.fromTo(overlayRef.current,
+          { opacity: 0.55 },
+          { opacity: 0.10, duration: 0.15 },
+          0.62)
 
-      tl.fromTo(ch3TitleRef.current,
-        { opacity: 0, scale: 1.15, filter: 'blur(14px)' },
-        { opacity: 1, scale: 1,    filter: 'blur(0px)', duration: 0.16 },
-        0.68)
-      tl.fromTo(ch3SubRef.current,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.12 },
-        0.80)
-    }
+        tl.fromTo(ch3TitleRef.current,
+          { opacity: 0, scale: 1.15, filter: 'blur(14px)' },
+          { opacity: 1, scale: 1,    filter: 'blur(0px)', duration: 0.16 },
+          0.68)
+        tl.fromTo(ch3SubRef.current,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.12 },
+          0.80)
+      }
 
-    if (video.readyState >= 1) {
-      setup()
-    } else {
-      video.addEventListener('loadedmetadata', setup, { once: true })
-    }
+      if (video.readyState >= 1) {
+        setup()
+      } else {
+        video.addEventListener('loadedmetadata', setup, { once: true })
+      }
+    })
 
-    return () => ScrollTrigger.getAll().forEach(t => t.kill())
+    return () => ctx.revert()
   }, [])
 
   return (
@@ -115,6 +119,8 @@ const Hero = () => {
           src="/video/one.mp4"
           muted
           playsInline
+          autoPlay
+          loop
           preload="auto"
         />
 
@@ -123,7 +129,7 @@ const Hero = () => {
         <div className="hero__grain" />
 
         <div className="hero__chapter hero__ch1">
-          <div className="hero__eyebrow">
+          <div className="hero__eyebrow" ref={ch1EyebrowRef}>
             <span className="hero__rule" />
             <span className="hero__eyebrow-txt">Year 845 · Wall Maria</span>
             <span className="hero__rule" />

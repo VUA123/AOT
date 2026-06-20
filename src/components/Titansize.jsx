@@ -82,50 +82,52 @@ export default function TitanSize({ onTitanClick }) {
     const sticky  = stickyRef.current
     if (!section || !sticky) return
 
-    const scrollLen = window.innerHeight * (TITANS.length + 1.5)
-    section.style.height = `${scrollLen + window.innerHeight}px`
+    const ctx = gsap.context(() => {
+      const scrollLen = window.innerHeight * (TITANS.length + 1.5)
+      section.style.height = `${scrollLen + window.innerHeight}px`
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger   : section,
-        start     : 'top top',
-        end       : `+=${scrollLen}`,
-        scrub     : 1.2,
-        pin       : sticky,
-        pinSpacing: false,
-      },
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger   : section,
+          start     : 'top top',
+          end       : `+=${scrollLen}`,
+          scrub     : 1.2,
+          pin       : sticky,
+          pinSpacing: false,
+        },
+      })
+
+      tl.fromTo(headerRef.current,
+        { opacity: 0, y: -30 },
+        { opacity: 1, y: 0, duration: 0.4 },
+        0)
+
+      TITANS.forEach((_, i) => {
+        const el    = titanRefs.current[i]
+        const label = labelRefs.current[i]
+        const line  = lineRefs.current[i]
+        if (!el) return
+
+        const start = 0.12 + i * 0.15
+
+        tl.fromTo(el,
+          { yPercent: 110, opacity: 0, filter: 'blur(4px)' },
+          { yPercent: 0,   opacity: 1, filter: 'blur(0px)', duration: 0.18, ease: 'power3.out' },
+          start)
+
+        tl.fromTo([label, line],
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.1 },
+          start + 0.14)
+      })
+
+      tl.fromTo(fogRef.current,
+        { opacity: 0.9 },
+        { opacity: 0.15, duration: 1 },
+        0)
     })
 
-    tl.fromTo(headerRef.current,
-      { opacity: 0, y: -30 },
-      { opacity: 1, y: 0, duration: 0.4 },
-      0)
-
-    TITANS.forEach((_, i) => {
-      const el    = titanRefs.current[i]
-      const label = labelRefs.current[i]
-      const line  = lineRefs.current[i]
-      if (!el) return
-
-      const start = 0.12 + i * 0.15
-
-      tl.fromTo(el,
-        { yPercent: 110, opacity: 0, filter: 'blur(4px)' },
-        { yPercent: 0,   opacity: 1, filter: 'blur(0px)', duration: 0.18, ease: 'power3.out' },
-        start)
-
-      tl.fromTo([label, line],
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.1 },
-        start + 0.14)
-    })
-
-    tl.fromTo(fogRef.current,
-      { opacity: 0.9 },
-      { opacity: 0.15, duration: 1 },
-      0)
-
-    return () => ScrollTrigger.getAll().forEach(t => t.kill())
+    return () => ctx.revert()
   }, [])
 
   return (

@@ -14,8 +14,12 @@
   border-radius: 4px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
   font-family: 'Cinzel', serif, system-ui;
-  transition: all 0.35s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), all 0.35s cubic-bezier(0.19, 1, 0.22, 1);
   box-sizing: border-box;
+}
+
+.mr-widget--shifted {
+  transform: translateX(-420px);
 }
 
 .mr-widget--expanded {

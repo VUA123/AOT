@@ -73,28 +73,32 @@
 }
 
 .hero__ch1 {
-  justify-content : flex-end;
-  padding         : 0 8vw 12vh;
+  justify-content : flex-start;
+  padding         : 150px 8vw 12vh;
 }
 
 .hero__eyebrow {
+  position   : absolute;
+  top        : 70px;
+  left       : 3vw;
   display    : flex;
   align-items: center;
   gap        : 0.8rem;
-  margin-bottom: 1.6rem;
-  opacity    : 0.65;
+  z-index    : 15;
 }
 .hero__rule {
   flex      : 0 0 36px;
   height    : 1px;
-  background: var(--gold);
+  background: #ffe8a3;
+  opacity   : 0.85;
 }
 .hero__eyebrow-txt {
   font-family   : var(--f-cinzel);
-  font-size     : clamp(0.5rem, 0.85vw, 0.72rem);
+  font-size     : clamp(0.55rem, 0.9vw, 0.78rem);
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color         : var(--gold);
+  color         : #ffe8a3;
+  text-shadow   : 0 2px 4px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.8);
 }
 
 .hero__ch1-title {

@@ -1,0 +1,141 @@
+export const CHRONICLES = [
+  {
+    id: 'wall-maria',
+    num: '01',
+    roman: 'I',
+    title: 'THE FALL OF WALL MARIA',
+    subtitle: 'THE BREACH',
+    year: 'Year 845 · Shiganshina District',
+    color: '#9E2A2B', // Burgundy
+    iconType: 'dagger',
+    iconChar: '†',
+    spreads: [
+      {
+        leftSubtitle: 'THE WALLS',
+        leftTitle: 'THE FALL OF WALL MARIA',
+        leftEmblem: '🧱',
+        leftYear: 'Year 845 · Shiganshina District',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 1',
+        
+        rightSubtitle: 'SPREAD 01',
+        rightTitle: 'THE GRIM REMINDER',
+        rightPageNum: 'Page 2',
+        rightText: 'For over one hundred years, humanity lived in safety behind three concentric walls of stone: Maria, Rose, and Sheena. Within this cage, generations grew up without ever seeing a Titan, believing the fifty-meter structures were eternal shields. But this peace was a fragile illusion. In Year 845, a skinless, steaming Colossal Titan kicked a hole in Shiganshina\'s gate, driving humanity into a bloody retreat.'
+      },
+      {
+        leftSubtitle: 'THE ANVIL',
+        leftTitle: 'THE DESOLATE FLIGHT',
+        leftEmblem: '🛡️',
+        leftYear: 'Year 845 · Wall Rose Retreat',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 3',
+        
+        rightSubtitle: 'SPREAD 02',
+        rightTitle: 'THE RETREAT',
+        rightPageNum: 'Page 4',
+        rightText: 'Among the weeping refugees was young Eren Yeager, who watched in helpless horror as his mother was eaten alive by a smiling titan. Evacuated on a crowded riverboat alongside his adoptive sister Mikasa Ackerman and friend Armin Arlert, Eren stared back at the burning Shiganshina harbor. In that moment of absolute despair and hatred, he swore an oath to destroy every titan in existence.'
+      },
+      {
+        leftSubtitle: 'THE INNER GATES',
+        leftTitle: 'SHATTERING PROTECTION',
+        leftEmblem: '⚓',
+        leftYear: 'Year 845 · Wall Maria Gate',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'SPREAD 03',
+        rightTitle: 'THE ARMORED CHARGE',
+        rightPageNum: 'Page 6',
+        rightText: 'Even as the survivors scrambled to safety behind the secondary line of Wall Rose, a secondary disaster struck. A heavily armored Titan, covered in hardened plating, charged through the inner gates of Shiganshina at terrifying speeds. This crushed the military fallback defenses, leaving Wall Maria permanently breached and forcing humanity to abandon twenty percent of its territory and food resources.'
+      },
+      {
+        leftSubtitle: 'THE REFUGE',
+        leftTitle: 'THE FAMINE CRISIS',
+        leftEmblem: '🌾',
+        leftYear: 'Year 846 · Wall Rose Territory',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 7',
+        
+        rightSubtitle: 'SPREAD 04',
+        rightTitle: 'THE COLD COALITION',
+        rightPageNum: 'Page 8',
+        rightText: 'Faced with a massive food shortage and hundreds of thousands of refugees, the Royal Government ordered a desperate counter-offensive to retake Wall Maria. Of the 250,000 refugees sent to the frontlines—mostly unequipped civilians—fewer than a hundred returned. While a tragedy, this cull alleviated the famine, leaving Eren, Mikasa, and Armin to rely purely on their military aspirations.'
+      },
+      {
+        leftSubtitle: 'THE DECISION',
+        leftTitle: 'DEDICATING THE HEART',
+        leftEmblem: '🩸',
+        leftYear: 'Year 847 · Recruitment Grounds',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 01',
+        leftPageNum: 'Page 9',
+        
+        rightSubtitle: 'SPREAD 05',
+        rightTitle: 'THE OATH',
+        rightPageNum: 'Page 10',
+        rightText: 'Three years after the fall, the surviving children of Shiganshina reached enlistment age. Standing before the harsh recruits barracks, they prepared to offer their hearts. Eren Yeager, fueled by absolute hatred and determination, stared out over the training fields, ready to forge himself into the ultimate weapon to reclaim humanity\'s freedom.'
+      }
+    ]
+  },
+  {
+    id: 'wall-maria', // Using same map structure to prevent link mismatch
+    id: 'training-corps',
+    num: '02',
+    roman: 'II',
+    title: '104TH TRAINING CORPS',
+    subtitle: 'FORGING WEAPONS',
+    year: 'Years 847-850 · Southern Division',
+    color: '#D4AF37', // Gold
+    iconType: 'sword',
+    iconChar: '⚔️',
+    spreads: [
+      {
+        leftSubtitle: 'THE CADETS',
+        leftTitle: 'FORGING THE WEAPONS',
+        leftEmblem: '⚔️',
+        leftYear: 'Year 847 · Southern Division',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 02',
+        leftPageNum: 'Page 1',
+        
+        rightSubtitle: 'SPREAD 01',
+        rightTitle: 'THE HARSH BAPTISM',
+        rightPageNum: 'Page 2',
+        rightText: 'Commandant Keith Shadis initiated the 104th Training Corps with a terrifying rite of passage, breaking down the recruits\' past identities to rebuild them as solid defenders of mankind. Those who had witnessed the Titan breach firsthand, however, like Eren Yeager, possessed an intense, unbroken resolve that skipped Shadis\'s standard intimidation rituals.'
+      },
+      {
+        leftSubtitle: 'THE BALANCING',
+        leftTitle: 'THREE-DIMENSIONAL GEAR',
+        leftEmblem: '⚙️',
+        leftYear: 'Year 847 · Training Fields',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 02',
+        leftPageNum: 'Page 3',
+        
+        rightSubtitle: 'SPREAD 02',
+        rightTitle: 'OMNI-DIRECTIONAL TRAINING',
+        rightPageNum: 'Page 4',
+        rightText: 'Mastering the Omni-Directional Mobility (ODM) gear was the recruits\' greatest hurdle. It required unparalleled balance, core strength, and spatial awareness. Eren Yeager initially failed the harness test due to a broken connector, but once given functional equipment, he displayed a natural, iron-clad control that stunned Shadis and his peers alike.'
+      },
+      {
+        leftSubtitle: 'THE RIVALRY',
+        leftTitle: 'HAND-TO-HAND COMBAT',
+        leftEmblem: '🤛',
+        leftYear: 'Year 848 · Southern Barracks',
+        leftFooterText: 'SCOUT CHRONICLES · VOL 02',
+        leftPageNum: 'Page 5',
+        
+        rightSubtitle: 'SPREAD 03',
+        rightTitle: 'CLASH OF TECHNIQUES',
+        rightPageNum: 'Page 6',
+        active: 1
+      },
+      {
+        id: 'training-4',
+        key: 'page-4',
+        name: 'The Tactical Arts',
+        symbol: '📖',
+        uniqueId: 4,
+        isFlipped: false
+      }
+    ]
+  }
+]
