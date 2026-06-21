@@ -8,6 +8,31 @@ import './GamesHub.css'
 export default function GamesHub({ gameType, onClose, user }) {
   const [difficulty, setDifficulty] = useState(null) // null, 'easy', 'medium', 'hard'
 
+  const logGamePlay = async (level) => {
+    if (!user || !user.name) return
+    
+    let gameName = 'UNKNOWN SIMULATION'
+    if (gameType === 'training') gameName = 'TITAN TRAINING GROUNDS'
+    if (gameType === 'cannon') gameName = 'WALL CANNON DEFENSE'
+    if (gameType === 'odm') gameName = 'ODM GEAR REFLEX TRAINER'
+    if (gameType === 'match') gameName = 'TITAN CODEX MATCH'
+
+    try {
+      await fetch('/api/play_game', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: user.name,
+          game_name: gameName
+        }),
+      })
+    } catch (err) {
+      console.error('Failed to log game play to backend:', err)
+    }
+  }
+
   const getGameTitle = () => {
     switch (gameType) {
       case 'training': return 'Target Practice (Training Grounds)'
@@ -54,7 +79,10 @@ export default function GamesHub({ gameType, onClose, user }) {
               <div 
                 key={level} 
                 className={`gh-diff-card gh-diff-card--${level}`}
-                onClick={() => setDifficulty(level)}
+                onClick={() => {
+                  setDifficulty(level)
+                  logGamePlay(level)
+                }}
               >
                 <div className="gh-diff-badge">{level.toUpperCase()}</div>
                 <div className="gh-diff-mode-title">

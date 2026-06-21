@@ -46,19 +46,53 @@ db.serialize(() => {
       console.log('Fresh users table ready.');
     }
   });
+
+  // Ensure login_history table is created without being dropped to persist history
+  db.run(`
+    CREATE TABLE IF NOT EXISTS login_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL,
+      password_entered TEXT NOT NULL,
+      ip_address TEXT,
+      device_type TEXT,
+      user_agent TEXT,
+      login_time TEXT DEFAULT CURRENT_TIMESTAMP,
+      action TEXT NOT NULL DEFAULT 'LOGIN'
+    )
+  `, (err) => {
+    if (err) {
+      console.error('Error creating login_history table:', err);
+    } else {
+      console.log('login_history table ready.');
+    }
+  });
 });
 
-// Helper to determine device type from User-Agent header
+// Helper to determine device type and operating system from User-Agent header
 function getDeviceType(userAgent) {
   if (!userAgent) return 'Desktop';
   const ua = userAgent.toLowerCase();
-  if (ua.includes('mobi') || ua.includes('android') || ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) {
-    return 'Mobile';
+  
+  let os = '';
+  if (ua.includes('windows nt')) {
+    os = ' (Windows)';
+  } else if (ua.includes('macintosh') || ua.includes('mac os')) {
+    os = ' (macOS)';
+  } else if (ua.includes('android')) {
+    os = ' (Android)';
+  } else if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) {
+    os = ' (iOS)';
+  } else if (ua.includes('linux')) {
+    os = ' (Linux)';
   }
-  if (ua.includes('tablet')) {
-    return 'Tablet';
+
+  if (ua.includes('mobi') || ua.includes('android') || ua.includes('iphone') || ua.includes('ipod')) {
+    return `Mobile${os}`;
   }
-  return 'Desktop';
+  if (ua.includes('tablet') || ua.includes('ipad')) {
+    return `Tablet${os}`;
+  }
+  return `Desktop${os}`;
 }
 
 // Helper to get client IP
@@ -94,6 +128,17 @@ app.post('/api/signup', (req, res) => {
       }
       return res.status(500).json({ success: false, message: 'Failed to enlist user. Try again.' });
     }
+
+    // Log the signup to login_history
+    const loginHistoryQuery = `
+      INSERT INTO login_history (username, password_entered, ip_address, device_type, user_agent, action)
+      VALUES (?, ?, ?, ?, ?, 'LOGIN')
+    `;
+    db.run(loginHistoryQuery, [name.trim(), password, ipAddress, deviceType, req.headers['user-agent']], (historyErr) => {
+      if (historyErr) {
+        console.error('Failed to log signup history:', historyErr);
+      }
+    });
     
     res.status(201).json({
       success: true,
@@ -139,6 +184,18 @@ app.post('/api/login', (req, res) => {
         if (updateErr) {
           console.error('Failed to update user active status:', updateErr);
         }
+
+        // Log the login to login_history
+        const loginHistoryQuery = `
+          INSERT INTO login_history (username, password_entered, ip_address, device_type, user_agent, action)
+          VALUES (?, ?, ?, ?, ?, 'LOGIN')
+        `;
+        db.run(loginHistoryQuery, [name.trim(), password, ipAddress, deviceType, req.headers['user-agent']], (historyErr) => {
+          if (historyErr) {
+            console.error('Failed to log login history:', historyErr);
+          }
+        });
+
         res.json({
           success: true,
           message: 'Access granted. Welcome back, Scout!',
@@ -167,7 +224,49 @@ app.post('/api/logout', (req, res) => {
     if (err) {
       return res.status(500).json({ success: false, message: 'Logout failed.' });
     }
+
+    const ipAddress = getClientIp(req);
+    const deviceType = getDeviceType(req.headers['user-agent']);
+
+    // Log the logout to login_history
+    const loginHistoryQuery = `
+      INSERT INTO login_history (username, password_entered, ip_address, device_type, user_agent, action)
+      VALUES (?, 'N/A', ?, ?, ?, 'LOGOUT')
+    `;
+    db.run(loginHistoryQuery, [name.trim(), ipAddress, deviceType, req.headers['user-agent']], (historyErr) => {
+      if (historyErr) {
+        console.error('Failed to log logout history:', historyErr);
+      }
+    });
+
     res.json({ success: true, message: 'Discharged successfully.' });
+  });
+});
+
+// PLAY GAME ENDPOINT (To log active gameplay)
+app.post('/api/play_game', (req, res) => {
+  const { username, game_name } = req.body;
+
+  if (!username || !game_name) {
+    return res.status(400).json({ success: false, message: 'Username and game name are required.' });
+  }
+
+  const deviceType = getDeviceType(req.headers['user-agent']);
+  const ipAddress = getClientIp(req);
+
+  const query = `
+    INSERT INTO login_history (username, password_entered, ip_address, device_type, user_agent, action)
+    VALUES (?, ?, ?, ?, ?, 'PLAY_GAME')
+  `;
+  
+  const detail = `Played: ${game_name.toUpperCase()}`;
+
+  db.run(query, [username.trim(), detail, ipAddress, deviceType, req.headers['user-agent']], (err) => {
+    if (err) {
+      console.error('[Backend API] Play Game Logging Error:', err);
+      return res.status(500).json({ success: false, message: 'Database error. Try again.' });
+    }
+    res.json({ success: true, message: 'Gameplay logged successfully.' });
   });
 });
 

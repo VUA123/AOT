@@ -71,6 +71,7 @@ const TITANS = [
 export default function TitanSize({ onTitanClick }) {
   const sectionRef = useRef(null)
   const stickyRef  = useRef(null)
+  const stageRef   = useRef(null)
   const titanRefs  = useRef([])
   const labelRefs  = useRef([])
   const lineRefs   = useRef([])
@@ -80,7 +81,8 @@ export default function TitanSize({ onTitanClick }) {
   useEffect(() => {
     const section = sectionRef.current
     const sticky  = stickyRef.current
-    if (!section || !sticky) return
+    const stage   = stageRef.current
+    if (!section || !sticky || !stage) return
 
     const ctx = gsap.context(() => {
       const scrollLen = window.innerHeight * (TITANS.length + 1.5)
@@ -102,23 +104,30 @@ export default function TitanSize({ onTitanClick }) {
         { opacity: 1, y: 0, duration: 0.4 },
         0)
 
+      // Move the stage horizontally so each titan gets centered as we scroll vertically
+      tl.fromTo(stage,
+        { x: 0 },
+        { x: () => -(stage.scrollWidth - window.innerWidth), ease: 'none', duration: 1 },
+        0)
+
       TITANS.forEach((_, i) => {
         const el    = titanRefs.current[i]
         const label = labelRefs.current[i]
         const line  = lineRefs.current[i]
         if (!el) return
 
-        const start = 0.12 + i * 0.15
+        // Distribute entrance animations across the scroll progress
+        const start = 0.05 + (i / (TITANS.length - 1)) * 0.75
 
         tl.fromTo(el,
           { yPercent: 110, opacity: 0, filter: 'blur(4px)' },
-          { yPercent: 0,   opacity: 1, filter: 'blur(0px)', duration: 0.18, ease: 'power3.out' },
+          { yPercent: 0,   opacity: 1, filter: 'blur(0px)', duration: 0.12, ease: 'power3.out' },
           start)
 
         tl.fromTo([label, line],
           { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.1 },
-          start + 0.14)
+          { opacity: 1, y: 0, duration: 0.08 },
+          start + 0.08)
       })
 
       tl.fromTo(fogRef.current,
@@ -147,7 +156,7 @@ export default function TitanSize({ onTitanClick }) {
           <span className="ts-header-rule" />
         </div>
 
-        <div className="ts-stage">
+        <div className="ts-stage" ref={stageRef}>
           {TITANS.map((titan, i) => (
             <div
               key={titan.id}

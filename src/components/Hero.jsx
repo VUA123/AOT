@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import './Hero.css'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import FireAshes from './FireAshes'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -9,6 +10,9 @@ const Hero = () => {
   const sectionRef = useRef(null)   
   const stickyRef  = useRef(null)   
   const videoRef   = useRef(null)
+
+  const introRef   = useRef(null)
+  const scrollHintRef = useRef(null)
 
   const ch1EyebrowRef = useRef(null)
   const ch1TitleRef = useRef(null)
@@ -19,12 +23,70 @@ const Hero = () => {
   const ch3SubRef   = useRef(null)
   const overlayRef  = useRef(null)
 
+  const isPlayPendingRef = useRef(false)
+
+  // Safe wrapper to prevent flooding the browser's media queue with overlapping play requests
+  const playVideo = () => {
+    const video = videoRef.current
+    if (!video || isPlayPendingRef.current) return
+    if (video.paused) {
+      isPlayPendingRef.current = true
+      video.play()
+        .then(() => {
+          isPlayPendingRef.current = false
+        })
+        .catch(() => {
+          isPlayPendingRef.current = false
+        })
+    }
+  }
+
+  const handleHeroClick = () => {
+    playVideo()
+  }
+
   useEffect(() => {
     const video   = videoRef.current
     const section = sectionRef.current
     if (!video || !section) return
 
-    video.play().catch(e => console.log("Video play failed:", e))
+    // Safe initial play attempt
+    playVideo()
+
+    let handleLoadedMetadata = null
+
+    // Scroll listener to resume video safely if browser occludes or pauses it during scrolls
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const heroHeight = section.offsetHeight || (window.innerHeight * 3.2)
+      if (scrollY < heroHeight) {
+        playVideo()
+      }
+    }
+
+    // Direct listener to force resume if the tab visibility state changes back to active
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        const scrollY = window.scrollY
+        const heroHeight = section.offsetHeight || (window.innerHeight * 3.2)
+        if (scrollY < heroHeight) {
+          playVideo()
+        }
+      }
+    }
+
+    // Lightweight 400ms background health monitor to rescue play state if stalled
+    const monitorInterval = setInterval(() => {
+      if (document.hidden) return
+      const scrollY = window.scrollY
+      const heroHeight = section.offsetHeight || (window.innerHeight * 3.2)
+      if (scrollY < heroHeight) {
+        playVideo()
+      }
+    }, 400)
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     const ctx = gsap.context(() => {
       const setup = () => {
@@ -38,10 +100,10 @@ const Hero = () => {
           start: 'top bottom',
           end: 'bottom top',
           onEnter: () => {
-            video.play().catch(e => console.log("Video play failed:", e))
+            playVideo()
           },
           onEnterBack: () => {
-            video.play().catch(e => console.log("Video play failed:", e))
+            playVideo()
           },
         })
 
@@ -54,6 +116,11 @@ const Hero = () => {
           },
           defaults: { ease: 'power3.out' },
         })
+
+        // Fade out the initial intro screen as scroll begins
+        tl.to([introRef.current, scrollHintRef.current],
+          { opacity: 0, y: -60, filter: 'blur(10px)', duration: 0.1 },
+          0)
 
         tl.fromTo(ch1TitleRef.current,
           { opacity: 0, y: 60, filter: 'blur(12px)' },
@@ -98,19 +165,31 @@ const Hero = () => {
           0.80)
       }
 
+      handleLoadedMetadata = () => {
+        setup()
+      }
+
       if (video.readyState >= 1) {
         setup()
       } else {
-        video.addEventListener('loadedmetadata', setup, { once: true })
+        video.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true })
       }
     })
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      clearInterval(monitorInterval)
+      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      if (handleLoadedMetadata) {
+        video.removeEventListener('loadedmetadata', handleLoadedMetadata)
+      }
+    }
   }, [])
 
   return (
 
-    <section className="hero" ref={sectionRef}>
+    <section className="hero" ref={sectionRef} onClick={handleHeroClick}>
       <div className="hero__sticky" ref={stickyRef}>
 
         <video
@@ -127,6 +206,16 @@ const Hero = () => {
         <div className="hero__overlay" ref={overlayRef} />
 
         <div className="hero__grain" />
+
+        <FireAshes />
+
+        <div className="hero__chapter hero__intro" ref={introRef}>
+          <h1 className="hero__intro-title">TO YOU, 2,000 YEARS FROM NOW</h1>
+          <p className="hero__intro-sub">
+            For a century, humanity lived in peace behind these walls.<br />
+            We thought we were safe. We were wrong.
+          </p>
+        </div>
 
         <div className="hero__chapter hero__ch1">
           <div className="hero__eyebrow" ref={ch1EyebrowRef}>
@@ -157,7 +246,8 @@ const Hero = () => {
           </p>
         </div>
 
-        <div className="hero__scroll-hint">
+        <div className="hero__scroll-hint" ref={scrollHintRef}>
+          <p className="hero__scroll-text">DESCEND</p>
           <span />
         </div>
 

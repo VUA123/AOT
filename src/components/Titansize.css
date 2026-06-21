@@ -120,13 +120,15 @@
   position        : absolute;
   bottom          : 12vh;
   left            : 0;
-  right           : 0;
   display         : flex;
   align-items     : flex-end;
-  justify-content : center;
-  gap             : clamp(0.8rem, 3vw, 4rem);
-  padding         : 0 3vw;
+  justify-content : flex-start;
+  gap             : clamp(4rem, 12vw, 16rem);
+  padding-left    : 45vw;
+  padding-right   : 45vw;
+  width           : max-content;
   z-index         : 5;
+  will-change     : transform;
 }
 
 .ts-titan-slot {
